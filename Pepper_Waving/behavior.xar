@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?><ChoregrapheProject xmlns="http://www.aldebaran-robotics.com/schema/choregraphe/project.xsd" xar_version="3"><Box name="root" id="-1" localization="8" tooltip="Root box of Choregraphe&apos;s behavior. Highest level possible." x="0" y="0"><bitmap>media/images/box/root.png</bitmap><script language="4"><content><![CDATA[]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" /><Timeline enable="0"><BehaviorLayer name="behavior_layer1"><BehaviorKeyframe name="keyframe1" index="1"><Diagram scale="100"><Box name="Hello" id="1" localization="8" tooltip="tags:&#x0A;hello; hey; hi" x="206" y="46"><bitmap>media/images/box/movement/move.png</bitmap><script language="4"><content><![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+        self.oldfps = ALFrameManager.getTimelineFps(self.getName())
+        try:
+            frameNumber.increaseParent( self.getName() );
+        except BaseException, err:
+            # if you don't want to use some encapsulated sub box, you will in that case. no worry...
+            pass
+
+    def onLoad(self):
+        #puts code for box cleanup here
+        pass
+
+    def onUnload(self):
+        #puts code for box cleanup here
+        ""
+
+    def onInput_onStart(self):
+        newfps = (self.oldfps * self.getParameter("FPS (%)")) / 100
+        ALFrameManager.setTimelineFps(self.getName(), newfps)
+        pass
+
+    def onInput_onStop(self):
+        ""]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when Diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" /><Parameter name="FPS (%)" inherits_from_parent="1" content_type="1" value="100" default_value="100" min="20" max="200" tooltip="" id="5" /><Timeline enable="1" fps="25" start_frame="1" end_frame="185" size="185"><BehaviorLayer name="led"><BehaviorKeyframe name="FaceLeds" index="35"><Diagram><Box name="Light_AskForAttentionEyes" id="1" localization="8" tooltip="Set an animated gaze which calls for attention (purple eyes).&#x0A;&#x0A;Note: It is a never ending box. You must call onStop to stop it.&#x0A;&#x0A;*** state: 5a_release ***&#x0A;*** ref box in: 5a_release\Leds\Light_AskForAttentionEyes\Light_AskForAttentionEyes.xar ***&#x0A;*** last modification date(svn): Version it! ***" x="208" y="59"><bitmap>media/images/box/interaction/LED.png</bitmap><script language="4"><content><![CDATA[class MyClass(GeneratedClass):
+  def __init__(self):
+    GeneratedClass.__init__(self);
+    self.bMustStop = False;
+    self.bIsRunning = False;
+
+  def onUnload(self):
+    self.onInput_onStop(); # will stop current loop execution
+
+  def onInput_onStart(self):
+    #self.log( self.getName() + ": start - begin" );
+
+    if( self.bIsRunning ):
+      #print( self.getName() + ": already started => nothing" );
+      return;
+
+    self.bIsRunning = True;
+    self.bMustStop = False;
+
+    rDuration = 0.2;
+    ALLeds.post.fadeRGB( "FaceLedsTop", 0x0099FF, rDuration );
+    ALLeds.post.fadeRGB( "FaceLedsInternal", 0x0099FF, rDuration );
+    ALLeds.post.fadeRGB( "FaceLedsBottom", 0x0099FF, rDuration );
+    ALLeds.fadeRGB( "FaceLedsExternal", 0x0099FF, rDuration );
+
+    while( not self.bMustStop ):
+      rTime = 0.1;
+      ALLeds.post.fadeRGB( "FaceLedsTop", 0xffffff, rTime );
+      ALLeds.fadeRGB( "FaceLedsBottom", 0xffffff, rTime );
+      if( self.bMustStop ):
+        break;
+      rTime = 0.3
+      ALLeds.post.fadeRGB( "FaceLedsTop", 0x0099FF, rTime );
+      ALLeds.fadeRGB( "FaceLedsBottom", 0x0099FF, rTime );
+
+
+    # end while
+    self.bIsRunning = False;
+    self.onStopped();
+
+  def onInput_onStop(self):
+    self.bMustStop = True; # will stop current loop execution]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" /></Box><Link inputowner="1" indexofinput="2" outputowner="0" indexofoutput="1" /></Diagram></BehaviorKeyframe></BehaviorLayer><BehaviorLayer name="sounds"><BehaviorKeyframe name="keyframe35" index="35"><Diagram><Box name="Play Soundset" id="3" localization="8" tooltip="" x="228" y="138"><bitmap>media/images/box/interaction/play_sound.png</bitmap><script language="4"><content><![CDATA[import random
+class MyClass(GeneratedClass):
+    def onLoad(self):
+        self.finished = True
+        self.audioPlayer = ALProxy("ALAudioPlayer")
+
+    def onInput_onStart(self):
+        if self.finished:
+            self.finished = False
+            soundset = self.getParameter("SoundSet")
+            sounds = self.getParameter("Sounds")
+            if soundset in self.audioPlayer.getLoadedSoundSetsList():
+                self.audioPlayer.playSoundSetFile(soundset, random.choice(sounds.split()))
+            else:
+                self.log("Soundset not installed: " + str(soundset))
+            self.finished = True
+            self.onStopped()]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="3" /><Parameter name="SoundSet" inherits_from_parent="0" content_type="3" value="Aldebaran" default_value="Aldebaran" custom_choice="0" tooltip="" id="4" /><Parameter name="Sounds" inherits_from_parent="0" content_type="3" value="enu_ono_hey_01 enu_ono_hey_02 enu_ono_heyhey enu_ono_heyheytogether" default_value="[enu_ono_laugh_02, enu_ono_hihihi]" custom_choice="0" tooltip="Name of the sound to play in the soundset" id="5" /></Box><Link inputowner="3" indexofinput="2" outputowner="0" indexofoutput="1" /></Diagram></BehaviorKeyframe></BehaviorLayer><BehaviorLayer name="tablet"><BehaviorKeyframe name="keyframe1" index="1"><Diagram><Box name="Show Image" id="13" localization="8" tooltip="display an image on the screen&#x0A;&#x0A;V1.0.0&#x0A;" x="183" y="42"><bitmap>media/images/box/interaction/rec_movie.png</bitmap><script language="4"><content><![CDATA[
+
+class MyClass(GeneratedClass):
+
+    def onLoad(self):
+        self.frameManager = None
+        try:
+            self.frameManager = ALProxy("ALFrameManager")
+        except Exception as e:
+            self.logger.error(e)
+
+    def onUnload(self):
+        pass
+
+    def _getTabletService(self):
+        tabletService = None
+        try:
+            tabletService = self.session().service("ALTabletService")
+        except Exception as e:
+            self.logger.error(e)
+        return tabletService
+
+    def _getAppName(self):
+        import os
+        if self.frameManager:
+            behaviorPath = os.path.normpath(self.frameManager.getBehaviorPath(self.behaviorId))
+            appsFolderFragment = os.path.join("PackageManager", "apps")
+            if not (appsFolderFragment in behaviorPath):
+                self.logger.error("appsFolderFragment is not in behaviorPath")
+            fragment = behaviorPath.split(appsFolderFragment, 1)[1]
+            return fragment.lstrip("\\/")
+        else:
+            self.logger.warning("No ALFrameManager")
+
+    def _getAbsoluteUrl(self, partial_url):
+        import os
+        subPath = os.path.join(self._getAppName(), os.path.normpath(partial_url).lstrip("\\/"))
+        # We create TabletService here in order to avoid
+        # problems with connections and disconnections of the tablet during the life of the application
+        return "http://%s/apps/%s" %(self._getTabletService().robotIp(), subPath.replace(os.path.sep, "/"))
+
+    def onInput_onStart(self):
+        # We create TabletService here in order to avoid
+        # problems with connections and disconnections of the tablet during the life of the application
+        tabletService = self._getTabletService()
+        if tabletService:
+            try:
+                url = self.getParameter("ImageUrl")
+                if url == '':
+                    self.logger.error("URL of the image is empty")
+                if not url.startswith('http'):
+                    url = self._getAbsoluteUrl(url)
+                tabletService.showImage(url)
+            except Exception as err:
+                self.logger.error("Error during ShowImage : %s " % err)
+                self.onStopped()
+        else:
+            self.logger.warning("No ALTabletService, can't display the image.")
+            self.onStopped()
+
+    def onInput_onHideImage(self):
+        # We create TabletService here in order to avoid
+        # problems with connections and disconnections of the tablet during the life of the application
+        tabletService = self._getTabletService()
+        if tabletService:
+            try:
+                tabletService.hideImage()
+            except Exception as err:
+                self.logger.error("Error during HideImage : %s " % err)
+                self.onStopped()
+        else:
+            self.logger.warning("No ALTabletService, can't hide the image.")
+            self.onStopped()
+
+    def onInput_onPreLoadImage(self):
+        # We create TabletService here in order to avoid
+        # problems with connections and disconnections of the tablet during the life of the application
+        tabletService = self._getTabletService()
+        if tabletService:
+            try:
+                partialUrl = self.getParameter("ImageUrl")
+                fullUrl = self._getAbsoluteUrl(partialUrl)
+                tabletService.preLoadImage(fullUrl)
+            except Exception as err:
+                self.logger.warning("Error during preLoadImage : %s " % err)
+                self.onStopped()
+        else:
+            self.logger.warning("No ALTabletService, can't preload the image.")
+            self.onStopped()
+
+    def onInput_onStop(self):
+        self.onUnload()
+        self.onStopped()]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Input name="onHideImage" type="1" type_size="1" nature="1" inner="0" tooltip="Hide the image when a signal is received on this input." id="4" /><Input name="onPreLoadImage" type="1" type_size="1" nature="1" inner="0" tooltip="Preload the image when a signal is received on this input." id="5" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="6" /><Parameter name="ImageUrl" inherits_from_parent="0" content_type="3" value="hello.gif" default_value="" custom_choice="0" tooltip='path of the image inside the &quot;html&quot; folder (e.g. &quot;/images/myimage.png&quot;' id="7" /></Box><Link inputowner="13" indexofinput="2" outputowner="0" indexofoutput="1" /></Diagram></BehaviorKeyframe></BehaviorLayer><ActuatorList model="nao"><ActuatorCurve name="value" actuator="LShoulderPitch" mute="0" unit="0"><Key frame="45" value="87.5378" /><Key frame="64" value="87.4499" /><Key frame="95" value="87.7135" /><Key frame="122" value="89.1198" /><Key frame="140" value="87.2741" /></ActuatorCurve><ActuatorCurve name="value" actuator="LShoulderRoll" mute="0" unit="0"><Key frame="45" value="7.11683" /><Key frame="64" value="4.65586" /><Key frame="95" value="4.65586" /><Key frame="122" value="4.91953" /><Key frame="140" value="7.02893" /></ActuatorCurve><ActuatorCurve name="value" actuator="LElbowYaw" mute="0" unit="0"><Key frame="45" value="-67.1517" /><Key frame="64" value="-59.0656" /><Key frame="95" value="-61.4387" /><Key frame="122" value="-66.1849" /><Key frame="140" value="-67.1517" /></ActuatorCurve><ActuatorCurve name="value" actuator="LElbowRoll" mute="0" unit="0"><Key frame="45" value="-28.1229" /><Key frame="64" value="-32.6933" /><Key frame="95" value="-32.6933" /><Key frame="122" value="-31.1992" /><Key frame="140" value="-28.1229" /></ActuatorCurve><ActuatorCurve name="value" actuator="LWristYaw" mute="0" unit="0"><Key frame="140" value="7.11683" /></ActuatorCurve><ActuatorCurve name="value" actuator="LHand" mute="0" unit="1"><Key frame="140" value="0.3004" /></ActuatorCurve><ActuatorCurve name="value" actuator="RShoulderPitch" mute="0" unit="0"><Key frame="43" value="14.153" /><Key frame="62" value="-66.6195" /><Key frame="79" value="-62.4007" /><Key frame="93" value="-71.1899" /><Key frame="110" value="-65.8285" /><Key frame="120" value="-16.8728" /><Key frame="138" value="86.1363" /></ActuatorCurve><ActuatorCurve name="value" actuator="RShoulderRoll" mute="0" unit="0"><Key frame="43" value="-13.8893" /><Key frame="62" value="-55.1105" /><Key frame="79" value="-26.3699" /><Key frame="93" value="-55.1984" /><Key frame="110" value="-18.8112" /><Key frame="120" value="-12.3072" /><Key frame="138" value="-7.12163" /></ActuatorCurve><ActuatorCurve name="value" actuator="RElbowYaw" mute="0" unit="0"><Key frame="43" value="-17.9323" /><Key frame="62" value="32.3418" /><Key frame="79" value="22.41" /><Key frame="93" value="20.3006" /><Key frame="110" value="21.8826" /><Key frame="120" value="55.1936" /><Key frame="138" value="66.6195" /></ActuatorCurve><ActuatorCurve name="value" actuator="RElbowRoll" mute="0" unit="0"><Key frame="43" value="79.3686" /><Key frame="62" value="14.4166" /><Key frame="69" value="20" /><Key frame="79" value="53.5285" /><Key frame="87" value="39" /><Key frame="93" value="11.692" /><Key frame="103" value="15" /><Key frame="110" value="40.5205" /><Key frame="120" value="56.6926" /><Key frame="138" value="24.7879" /></ActuatorCurve><ActuatorCurve name="value" actuator="RWristYaw" mute="0" unit="0"><Key frame="62" value="-17.9323" /><Key frame="110" value="-17.405" /><Key frame="138" value="9.75358" /></ActuatorCurve><ActuatorCurve name="value" actuator="RHand" mute="0" unit="1"><Key frame="62" value="0.853478" /><Key frame="110" value="0.854933" /><Key frame="138" value="0.3044" /></ActuatorCurve><ActuatorCurve name="value" actuator="LHipYawPitch" mute="0" unit="-1"><Key frame="63" value="0" /><Key frame="139" value="0" /></ActuatorCurve><ActuatorCurve name="value" actuator="LHipRoll" mute="0" unit="-1"><Key frame="63" value="0" /><Key frame="139" value="0" /></ActuatorCurve><ActuatorCurve name="value" actuator="LHipPitch" mute="0" unit="-1"><Key frame="63" value="0" /><Key frame="139" value="0" /></ActuatorCurve><ActuatorCurve name="value" actuator="LKneePitch" mute="0" unit="-1"><Key frame="63" value="0" /><Key frame="139" value="0" /></ActuatorCurve><ActuatorCurve name="value" actuator="LAnklePitch" mute="0" unit="-1"><Key frame="63" value="0" /><Key frame="139" value="0" /></ActuatorCurve><ActuatorCurve name="value" actuator="LAnkleRoll" mute="0" unit="-1"><Key frame="63" value="0" /><Key frame="139" value="0" /></ActuatorCurve><ActuatorCurve name="value" actuator="RHipRoll" mute="0" unit="-1"><Key frame="63" value="0" /><Key frame="139" value="0" /></ActuatorCurve><ActuatorCurve name="value" actuator="RHipPitch" mute="0" unit="-1"><Key frame="63" value="0" /><Key frame="139" value="0" /></ActuatorCurve><ActuatorCurve name="value" actuator="RKneePitch" mute="0" unit="-1"><Key frame="63" value="0" /><Key frame="139" value="0" /></ActuatorCurve><ActuatorCurve name="value" actuator="RAnklePitch" mute="0" unit="-1"><Key frame="63" value="0" /><Key frame="139" value="0" /></ActuatorCurve><ActuatorCurve name="value" actuator="RAnkleRoll" mute="0" unit="-1"><Key frame="63" value="0" /><Key frame="139" value="0" /></ActuatorCurve></ActuatorList></Timeline></Box><Box name="Human Detected" id="74" localization="8" tooltip="style:&#x0A;sad; happy; fun&#x0A;tags:&#x0A;look; watch; examine; see; monitor" x="60" y="45"><bitmap>media/images/box/movement/move.png</bitmap><script language="4"><content><![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+        self.oldfps = ALFrameManager.getTimelineFps(self.getName())
+        try:
+            frameNumber.increaseParent( self.getName() );
+        except BaseException, err:
+            # if you don't want to use some encapsulated sub box, you will in that case. no worry...
+            pass
+
+    def onLoad(self):
+        #puts code for box cleanup here
+        pass
+
+    def onUnload(self):
+        #puts code for box cleanup here
+        ""
+
+    def onInput_onStart(self):
+        newfps = (self.oldfps * self.getParameter("FPS (%)")) / 100
+        ALFrameManager.setTimelineFps(self.getName(), newfps)
+        pass
+
+    def onInput_onStop(self):
+        ""]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when Diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this Input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this Input." id="3" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when Box behavior is finished." id="4" /><Parameter name="FPS (%)" inherits_from_parent="1" content_type="1" value="100" default_value="100" min="20" max="200" tooltip="" id="5" /><Timeline enable="1" fps="25" start_frame="1" end_frame="100" size="100"><BehaviorLayer name="sound"><BehaviorKeyframe name="keyframe1" index="1"><Diagram><Box name="Sound laugh_02" id="3" localization="8" tooltip="" x="249" y="75"><bitmap>media/images/box/interaction/play_sound.png</bitmap><script language="4"><content><![CDATA[import random
+class MyClass(GeneratedClass):
+    def onLoad(self):
+        self.finished = True
+        self.audioPlayer = ALProxy("ALAudioPlayer")
+
+    def onInput_onStart(self):
+        if self.finished:
+            self.finished = False
+            soundset = self.getParameter("SoundSet")
+            sounds = self.getParameter("Sounds")
+            if soundset in self.audioPlayer.getLoadedSoundSetsList():
+                self.audioPlayer.playSoundSetFile(soundset, random.choice(sounds.split()))
+            else:
+                self.log("Soundset not installed: " + str(soundset))
+            self.finished = True
+            self.onStopped()]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="3" /><Parameter name="SoundSet" inherits_from_parent="0" content_type="3" value="Aldebaran" default_value="Aldebaran" custom_choice="0" tooltip="" id="4" /><Parameter name="Sounds" inherits_from_parent="0" content_type="3" value="enu_ono_ba_human_detected_01 enu_ono_ba_human_detected_02 enu_ono_ba_human_detected_04 enu_ono_ba_human_detected_05 enu_ono_ba_human_detected_06 enu_ono_ba_human_detected_07 enu_ono_ba_human_detected_08" default_value="[enu_ono_laugh_02, enu_ono_hihihi]" custom_choice="0" tooltip="Name of the sound to play in the soundset" id="5" /></Box><Link inputowner="3" indexofinput="2" outputowner="0" indexofoutput="1" /></Diagram></BehaviorKeyframe></BehaviorLayer><ActuatorList model="nao"><ActuatorCurve name="value" actuator="LShoulderPitch" mute="0" unit="0"><Key frame="31" value="58.7093" /><Key frame="69" value="60.2913" /></ActuatorCurve><ActuatorCurve name="value" actuator="LShoulderRoll" mute="0" unit="0"><Key frame="31" value="1.49176" /><Key frame="69" value="1.57965" /></ActuatorCurve><ActuatorCurve name="value" actuator="LElbowYaw" mute="0" unit="0"><Key frame="31" value="-36.3896" /><Key frame="69" value="-36.6533" /></ActuatorCurve><ActuatorCurve name="value" actuator="LElbowRoll" mute="0" unit="0"><Key frame="31" value="-66.4437" /><Key frame="69" value="-67.4106" /></ActuatorCurve><ActuatorCurve name="value" actuator="LWristYaw" mute="0" unit="0"><Key frame="31" value="65" /><Key frame="69" value="64.4222" /></ActuatorCurve><ActuatorCurve name="value" actuator="LHand" mute="0" unit="1"><Key frame="31" value="0.254545" /><Key frame="69" value="0.246571" /></ActuatorCurve><ActuatorCurve name="value" actuator="RShoulderPitch" mute="0" unit="0"><Key frame="29" value="76.9077" /><Key frame="69" value="81.8296" /></ActuatorCurve><ActuatorCurve name="value" actuator="RShoulderRoll" mute="0" unit="0"><Key frame="29" value="-5.18802" /><Key frame="69" value="-1.93602" /></ActuatorCurve><ActuatorCurve name="value" actuator="RElbowYaw" mute="0" unit="0"><Key frame="29" value="54.1389" /><Key frame="69" value="54.9299" /></ActuatorCurve><ActuatorCurve name="value" actuator="RElbowRoll" mute="0" unit="0"><Key frame="29" value="81.7417" /><Key frame="69" value="85.0816" /></ActuatorCurve><ActuatorCurve name="value" actuator="RWristYaw" mute="0" unit="0"><Key frame="29" value="-60" /><Key frame="69" value="-59.0656" /></ActuatorCurve><ActuatorCurve name="value" actuator="RHand" mute="0" unit="1"><Key frame="29" value="0.254545" /><Key frame="69" value="0.246571" /></ActuatorCurve><ActuatorCurve name="value" actuator="LHipYawPitch" mute="0" unit="-1"><Key frame="31" value="0" /><Key frame="69" value="0" /></ActuatorCurve><ActuatorCurve name="value" actuator="LHipRoll" mute="0" unit="-1"><Key frame="31" value="0" /><Key frame="69" value="0" /></ActuatorCurve><ActuatorCurve name="value" actuator="LHipPitch" mute="0" unit="-1"><Key frame="31" value="0" /><Key frame="69" value="0" /></ActuatorCurve><ActuatorCurve name="value" actuator="LKneePitch" mute="0" unit="-1"><Key frame="31" value="0" /><Key frame="69" value="0" /></ActuatorCurve><ActuatorCurve name="value" actuator="LAnklePitch" mute="0" unit="-1"><Key frame="31" value="0" /><Key frame="69" value="0" /></ActuatorCurve><ActuatorCurve name="value" actuator="LAnkleRoll" mute="0" unit="-1"><Key frame="31" value="0" /><Key frame="69" value="0" /></ActuatorCurve><ActuatorCurve name="value" actuator="RHipRoll" mute="0" unit="-1"><Key frame="31" value="0" /><Key frame="69" value="0" /></ActuatorCurve><ActuatorCurve name="value" actuator="RHipPitch" mute="0" unit="-1"><Key frame="31" value="0" /><Key frame="69" value="0" /></ActuatorCurve><ActuatorCurve name="value" actuator="RKneePitch" mute="0" unit="-1"><Key frame="31" value="0" /><Key frame="69" value="0" /></ActuatorCurve><ActuatorCurve name="value" actuator="RAnklePitch" mute="0" unit="-1"><Key frame="31" value="0" /><Key frame="69" value="0" /></ActuatorCurve><ActuatorCurve name="value" actuator="RAnkleRoll" mute="0" unit="-1"><Key frame="31" value="0" /><Key frame="69" value="0" /></ActuatorCurve></ActuatorList></Timeline></Box><Link inputowner="74" indexofinput="2" outputowner="0" indexofoutput="2" /><Link inputowner="1" indexofinput="2" outputowner="74" indexofoutput="4" /></Diagram></BehaviorKeyframe></BehaviorLayer></Timeline></Box></ChoregrapheProject>

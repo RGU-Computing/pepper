@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<package uuid="pepper_waving-7ba8b5" version="0.0.1">
+ <names>
+  <name lang="en_US">Pepper Waving</name>
+ </names>
+ <descriptions>
+  <description lang="en_US">When entering Engagement Zone 2 for at least 10 seconds, Pepper will greet you.
+The application can only be launched again after 60 seconds.</description>
+ </descriptions>
+ <descriptionLanguages>
+  <language>en_US</language>
+ </descriptionLanguages>
+ <contents>
+  <behaviorContent path=".">
+   <nature>solitary</nature>
+   <names>
+    <name lang="en_US">Pepper Waving</name>
+   </names>
+   <descriptions>
+    <description lang="en_US">When entering engagement zone 2 for at least 10 seconds, Pepper will greet you.</description>
+   </descriptions>
+   <autonomous>
+    <condition purpose="launchTrigger"><![CDATA[('Launchpad/FocusedActivity' != "pepper-waving/.") ~ 60 && ('Launchpad/NumPeopleZone2' > 0) ~ 10]]></condition>
+   </autonomous>
+   <permissions/>
+  </behaviorContent>
+ </contents>
+ <requirements>
+  <naoqiRequirement minVersion="2.3"/>
+  <robotRequirement model="JULIETTE"/>
+ </requirements>
+</package>

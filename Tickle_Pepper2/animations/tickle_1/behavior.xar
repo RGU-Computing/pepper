@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ChoregrapheProject xmlns="http://www.aldebaran-robotics.com/schema/choregraphe/project.xsd" xar_version="3">
+    <Box name="root" id="-1" localization="8" tooltip="Root box of Choregraphe&apos;s behavior. Highest level possible." x="0" y="0">
+        <bitmap>media/images/box/root.png</bitmap>
+        <script language="4">
+            <content>
+                <![CDATA[]]>
+</content>
+        </script>
+        <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+        <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+        <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
+        <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
+        <Timeline enable="0">
+            <BehaviorLayer name="behavior_layer1">
+                <BehaviorKeyframe name="keyframe1" index="1">
+                    <Diagram>
+                        <Box name="Tikkles1" id="1" localization="8" tooltip="" x="347" y="70">
+                            <bitmap>media/images/box/movement/move.png</bitmap>
+                            <script language="4">
+                                <content>
+                                    <![CDATA[]]>
+</content>
+                            </script>
+                            <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+                            <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+                            <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
+                            <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
+                            <Timeline enable="1" fps="25" start_frame="1" end_frame="-1" size="118">
+                                <ActuatorList model="">
+                                    <ActuatorCurve name="value" actuator="HeadPitch" mute="0" unit="0">
+                                        <Key frame="1" value="-13.0078" />
+                                        <Key frame="12" value="5.5" />
+                                        <Key frame="20" value="-12.1338" />
+                                        <Key frame="51" value="15.8063" />
+                                        <Key frame="81" value="-29.3967" />
+                                        <Key frame="95" value="-1.4" />
+                                        <Key frame="109" value="-14.7656" />
+                                        <Key frame="118" value="-13.7109" />
+                                    </ActuatorCurve>
+                                    <ActuatorCurve name="value" actuator="HeadYaw" mute="0" unit="0">
+                                        <Key frame="1" value="0" />
+                                        <Key frame="20" value="0.703127" />
+                                        <Key frame="24" value="18.9466" />
+                                        <Key frame="28" value="-2.91239" />
+                                        <Key frame="33" value="18.9466" />
+                                        <Key frame="38" value="-3.50364" />
+                                        <Key frame="44" value="18.9466" />
+                                        <Key frame="49" value="-3.50364" />
+                                        <Key frame="54" value="18.9466" />
+                                        <Key frame="59" value="-5.1326" />
+                                        <Key frame="64" value="18.9466" />
+                                        <Key frame="71" value="-3.50364" />
+                                        <Key frame="81" value="-2.6" />
+                                        <Key frame="109" value="-1.49414" />
+                                        <Key frame="118" value="-1.14258" />
+                                    </ActuatorCurve>
+                                    <ActuatorCurve name="value" actuator="HipPitch" mute="0" unit="0">
+                                        <Key frame="1" value="-2.54882" />
+                                        <Key frame="20" value="-49.3438" />
+                                        <Key frame="33" value="-49.3438" />
+                                        <Key frame="49" value="-34.0489" />
+                                        <Key frame="63" value="-36.6125" />
+                                        <Key frame="81" value="-49.2329" />
+                                        <Key frame="95" value="-24.7494" />
+                                        <Key frame="109" value="-10.5363" />
+                                        <Key frame="118" value="-8.56792" />
+                                    </ActuatorCurve>
+                                    <ActuatorCurve name="value" actuator="HipRoll" mute="0" unit="0">
+                                        <Key frame="1" value="-0.351564" />
+                                        <Key frame="16" value="-0.955272" />
+                                        <Key frame="23" value="6.16427" />
+                                        <Key frame="28" value="-4.12783" />
+                                        <Key frame="33" value="6.11988" />
+                                        <Key frame="37" value="-4.12783" />
+                                        <Key frame="44" value="6.16427" />
+                                        <Key frame="49" value="-5.26281" />
+                                        <Key frame="54" value="6.16427" />
+                                        <Key frame="58" value="-4.12783" />
+                                        <Key frame="63" value="5.88994" />
+                                        <Key frame="70" value="-4.12783" />
+                                        <Key frame="81" value="-0.239591" />
+                                        <Key frame="95" value="-0.239591" />
+                                        <Key frame="109" value="-0.239591" />
+                                        <Key frame="118" value="-0.896705" />
+                                    </ActuatorCurve>
+                                    <ActuatorCurve name="value" actuator="KneePitch" mute="0" unit="0">
+                                        <Key frame="1" value="0.351564" />
+                                        <Key frame="20" value="24.1046" />
+                                        <Key frame="33" value="24.1046" />
+                                        <Key frame="49" value="15.9388" />
+                                        <Key frame="63" value="19.5182" />
+                                        <Key frame="81" value="23.8959" />
+                                        <Key frame="95" value="10.3981" />
+                                        <Key frame="109" value="3.23833" />
+                                        <Key frame="118" value="2.21262" />
+                                    </ActuatorCurve>
+                                    <ActuatorCurve name="value" actuator="LElbowRoll" mute="0" unit="0">
+                                        <Key frame="1" value="-29.7949" />
+                                        <Key frame="20" value="-71.1035" />
+                                        <Key frame="33" value="-66.3574" />
+                                        <Key frame="49" value="-71.1035" />
+                                        <Key frame="63" value="-66.3574" />
+                                        <Key frame="81" value="-71.1035" />
+                                        <Key frame="109" value="-37.8809" />
+                                        <Key frame="118" value="-36.1231" />
+                                    </ActuatorCurve>
+                                    <ActuatorCurve name="value" actuator="LElbowYaw" mute="0" unit="0">
+                                        <Key frame="1" value="-69.7851" />
+                                        <Key frame="20" value="-21.1816" />
+                                        <Key frame="33" value="-26.4551" />
+                                        <Key frame="49" value="-21.1816" />
+                                        <Key frame="63" value="-26.4551" />
+                                        <Key frame="81" value="-21.1816" />
+                                        <Key frame="109" value="-61.1719" />
+                                        <Key frame="118" value="-63.3691" />
+                                    </ActuatorCurve>
+                                    <ActuatorCurve name="value" actuator="LHand" mute="0" unit="1">
+                                        <Key frame="1" value="0.588752" />
+                                        <Key frame="20" value="0.5" />
+                                        <Key frame="33" value="0.503515" />
+                                        <Key frame="49" value="0.5" />
+                                        <Key frame="63" value="0.503515" />
+                                        <Key frame="81" value="0.5" />
+                                        <Key frame="95" value="0.08" />
+                                        <Key frame="109" value="0.507909" />
+                                        <Key frame="118" value="0.574692" />
+                                    </ActuatorCurve>
+                                    <ActuatorCurve name="value" actuator="LShoulderPitch" mute="0" unit="0">
+                                        <Key frame="1" value="89.9121" />
+                                        <Key frame="20" value="51.9" />
+                                        <Key frame="33" value="56.4258" />
+                                        <Key frame="49" value="51.9" />
+                                        <Key frame="63" value="56.4258" />
+                                        <Key frame="81" value="51.9" />
+                                        <Key frame="109" value="79.9805" />
+                                        <Key frame="118" value="81.7383" />
+                                    </ActuatorCurve>
+                                    <ActuatorCurve name="value" actuator="LShoulderRoll" mute="0" unit="0">
+                                        <Key frame="1" value="6.32813" />
+                                        <Key frame="20" value="0.615236" />
+                                        <Key frame="33" value="0.9668" />
+                                        <Key frame="49" value="0.615236" />
+                                        <Key frame="63" value="0.9668" />
+                                        <Key frame="81" value="0.615236" />
+                                        <Key frame="95" value="16.1" />
+                                        <Key frame="109" value="7.91015" />
+                                        <Key frame="118" value="5.97657" />
+                                    </ActuatorCurve>
+                                    <ActuatorCurve name="value" actuator="LWristYaw" mute="0" unit="0">
+                                        <Key frame="1" value="-1.32078" />
+                                        <Key frame="20" value="-3.43018" />
+                                        <Key frame="33" value="-2.63916" />
+                                        <Key frame="49" value="-3.43018" />
+                                        <Key frame="63" value="-2.63916" />
+                                        <Key frame="81" value="-3.43018" />
+                                        <Key frame="109" value="-2.02391" />
+                                        <Key frame="118" value="-1.49656" />
+                                    </ActuatorCurve>
+                                    <ActuatorCurve name="value" actuator="RElbowRoll" mute="0" unit="0">
+                                        <Key frame="1" value="30.3223" />
+                                        <Key frame="20" value="83.1445" />
+                                        <Key frame="33" value="77.168" />
+                                        <Key frame="49" value="83.1445" />
+                                        <Key frame="63" value="77.168" />
+                                        <Key frame="81" value="83.1445" />
+                                        <Key frame="109" value="39.8145" />
+                                        <Key frame="118" value="37.3535" />
+                                    </ActuatorCurve>
+                                    <ActuatorCurve name="value" actuator="RElbowYaw" mute="0" unit="0">
+                                        <Key frame="1" value="69.9609" />
+                                        <Key frame="20" value="25.752" />
+                                        <Key frame="33" value="30.6738" />
+                                        <Key frame="49" value="25.752" />
+                                        <Key frame="63" value="30.6738" />
+                                        <Key frame="81" value="25.752" />
+                                        <Key frame="109" value="62.0508" />
+                                        <Key frame="118" value="64.2481" />
+                                    </ActuatorCurve>
+                                    <ActuatorCurve name="value" actuator="RHand" mute="0" unit="1">
+                                        <Key frame="1" value="0.594903" />
+                                        <Key frame="20" value="0.454306" />
+                                        <Key frame="33" value="0.458699" />
+                                        <Key frame="49" value="0.454306" />
+                                        <Key frame="63" value="0.458699" />
+                                        <Key frame="81" value="0.454306" />
+                                        <Key frame="95" value="0.08" />
+                                        <Key frame="109" value="0.508787" />
+                                        <Key frame="118" value="0.573814" />
+                                    </ActuatorCurve>
+                                    <ActuatorCurve name="value" actuator="RShoulderPitch" mute="0" unit="0">
+                                        <Key frame="1" value="89.7363" />
+                                        <Key frame="20" value="70.9277" />
+                                        <Key frame="33" value="73.3008" />
+                                        <Key frame="49" value="70.9277" />
+                                        <Key frame="63" value="73.3008" />
+                                        <Key frame="81" value="70.9277" />
+                                        <Key frame="109" value="84.1992" />
+                                        <Key frame="118" value="85.2539" />
+                                    </ActuatorCurve>
+                                    <ActuatorCurve name="value" actuator="RShoulderRoll" mute="0" unit="0">
+                                        <Key frame="1" value="-6.15235" />
+                                        <Key frame="20" value="-12.3047" />
+                                        <Key frame="33" value="-11.7774" />
+                                        <Key frame="49" value="-12.3047" />
+                                        <Key frame="63" value="-11.7774" />
+                                        <Key frame="81" value="-12.3047" />
+                                        <Key frame="95" value="-26.5" />
+                                        <Key frame="109" value="-11.6895" />
+                                        <Key frame="118" value="-9.49219" />
+                                    </ActuatorCurve>
+                                    <ActuatorCurve name="value" actuator="RWristYaw" mute="0" unit="0">
+                                        <Key frame="1" value="0.788627" />
+                                        <Key frame="20" value="4.83163" />
+                                        <Key frame="33" value="4.39218" />
+                                        <Key frame="49" value="4.83163" />
+                                        <Key frame="63" value="4.39218" />
+                                        <Key frame="81" value="4.83163" />
+                                        <Key frame="109" value="2.45857" />
+                                        <Key frame="118" value="1.57965" />
+                                    </ActuatorCurve>
+                                </ActuatorList>
+                            </Timeline>
+                            <Resource name="Standing" type="Lock" timeout="1" />
+                            <Resource name="All motors" type="Lock" timeout="1" />
+                        </Box>
+                        <Box name="Set Self Anti-Collision" id="7" localization="8" tooltip="Enable or disable the self collision protection on some specific part of the robot&apos;s body.&#x0A;&#x0A;For example if the protection is enabled on his left arm he will move his arm all the&#x0A;same than when it is not but avoiding his other body parts." x="152" y="67">
+                            <bitmap>media/images/box/sensors/anti_collision.png</bitmap>
+                            <script language="4">
+                                <content>
+                                    <![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self, False)
+
+    def onLoad(self):
+        self.motion = ALProxy( "ALMotion" )
+
+    def onUnload(self):
+        pass
+
+    def onInput_onSet(self):
+        # is it enable or disable asked?
+        enable = (self.getParameter("Action") == "Enable")
+        # enable/disable collision protection
+        result = self.motion.setCollisionProtectionEnabled( self.getParameter("Body part"), enable )
+        if( result ):
+            self.success()
+        else:
+            self.logger.warning( "Disabling collision protection failed. Deactivation succeeds only if the current state of the chain is not in collision. If you want to deactivate collision of both arms, they need to be off collision." )
+            self.failure()]]>
+</content>
+                            </script>
+                            <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+                            <Input name="onSet" type="1" type_size="1" nature="1" inner="0" tooltip="The anti-collision feature is enabled or disabled when this input is stimulated." id="2" />
+                            <Output name="success" type="1" type_size="1" nature="2" inner="0" tooltip="Signal sent if the collision protection has been successfully enabled or disabled.&#x0A;&#x0A;Note: The only case where there is a failure is when you try to disable the&#x0A;anti-collision while it is currently in collision with some part of his body." id="3" />
+                            <Output name="failure" type="1" type_size="1" nature="2" inner="0" tooltip="Signal sent if the collision protection has failed to be enabled or disabled.&#x0A;&#x0A;Note: The only case where there is a failure is when you try to disable the&#x0A;anti-collision while it is currently in collision with some part of his body." id="4" />
+                            <Parameter name="Body part" inherits_from_parent="0" content_type="3" value="Arms" default_value="Arms" custom_choice="0" tooltip="Body part which avoids the collision." id="5">
+                                <Choice value="Arms" />
+                                <Choice value="LArm" />
+                                <Choice value="RArm" />
+                            </Parameter>
+                            <Parameter name="Action" inherits_from_parent="0" content_type="3" value="Disable" default_value="Enable" custom_choice="0" tooltip="Enable or disable the collision protection." id="6">
+                                <Choice value="Disable" />
+                                <Choice value="Enable" />
+                            </Parameter>
+                        </Box>
+                        <Box name="Set Self Anti-Collision (1)" id="4" localization="8" tooltip="Enable or disable the self collision protection on some specific part of the robot&apos;s body.&#x0A;&#x0A;For example if the protection is enabled on his left arm he will move his arm all the&#x0A;same than when it is not but avoiding his other body parts." x="503" y="66">
+                            <bitmap>media/images/box/sensors/anti_collision.png</bitmap>
+                            <script language="4">
+                                <content>
+                                    <![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self, False)
+
+    def onLoad(self):
+        self.motion = ALProxy( "ALMotion" )
+
+    def onUnload(self):
+        pass
+
+    def onInput_onSet(self):
+        # is it enable or disable asked?
+        enable = (self.getParameter("Action") == "Enable")
+        # enable/disable collision protection
+        result = self.motion.setCollisionProtectionEnabled( self.getParameter("Body part"), enable )
+        if( result ):
+            self.success()
+        else:
+            self.logger.warning( "Disabling collision protection failed. Deactivation succeeds only if the current state of the chain is not in collision. If you want to deactivate collision of both arms, they need to be off collision." )
+            self.failure()]]>
+</content>
+                            </script>
+                            <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+                            <Input name="onSet" type="1" type_size="1" nature="1" inner="0" tooltip="The anti-collision feature is enabled or disabled when this input is stimulated." id="2" />
+                            <Output name="success" type="1" type_size="1" nature="2" inner="0" tooltip="Signal sent if the collision protection has been successfully enabled or disabled.&#x0A;&#x0A;Note: The only case where there is a failure is when you try to disable the&#x0A;anti-collision while it is currently in collision with some part of his body." id="3" />
+                            <Output name="failure" type="1" type_size="1" nature="2" inner="0" tooltip="Signal sent if the collision protection has failed to be enabled or disabled.&#x0A;&#x0A;Note: The only case where there is a failure is when you try to disable the&#x0A;anti-collision while it is currently in collision with some part of his body." id="4" />
+                            <Parameter name="Body part" inherits_from_parent="0" content_type="3" value="Arms" default_value="Arms" custom_choice="0" tooltip="Body part which avoids the collision." id="5">
+                                <Choice value="Arms" />
+                                <Choice value="LArm" />
+                                <Choice value="RArm" />
+                            </Parameter>
+                            <Parameter name="Action" inherits_from_parent="0" content_type="3" value="Enable" default_value="Enable" custom_choice="0" tooltip="Enable or disable the collision protection." id="6">
+                                <Choice value="Disable" />
+                                <Choice value="Enable" />
+                            </Parameter>
+                        </Box>
+                        <Link inputowner="4" indexofinput="2" outputowner="1" indexofoutput="4" />
+                        <Link inputowner="0" indexofinput="4" outputowner="4" indexofoutput="3" />
+                        <Link inputowner="0" indexofinput="4" outputowner="4" indexofoutput="4" />
+                        <Link inputowner="7" indexofinput="2" outputowner="0" indexofoutput="2" />
+                        <Link inputowner="1" indexofinput="2" outputowner="7" indexofoutput="3" />
+                        <Link inputowner="1" indexofinput="2" outputowner="7" indexofoutput="4" />
+                    </Diagram>
+                </BehaviorKeyframe>
+            </BehaviorLayer>
+        </Timeline>
+    </Box>
+</ChoregrapheProject>

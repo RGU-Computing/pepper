@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<package uuid="tickle_pepper-6d90bc" version="0.0.1">
+ <names>
+  <name lang="en_US">Tickle Pepper</name>
+ </names>
+ <descriptions>
+  <description lang="en_US">Pepper asks to be tickled and you can tickle him by touching his tablet. It exits automatically after 15 seconds without being tickled.</description>
+ </descriptions>
+ <supportedLanguages>
+  <language>en_US</language>
+ </supportedLanguages>
+ <descriptionLanguages>
+  <language>en_US</language>
+ </descriptionLanguages>
+ <contents>
+  <behaviorContent path=".">
+   <userRequestable/>
+   <nature>interactive</nature>
+   <triggerSentences>
+    <sentence lang="en_US">Are you ticklish</sentence>
+    <sentence lang="en_US">tickling</sentence>
+    <sentence lang="en_US">tickle game</sentence>
+    <sentence lang="en_US">tickles</sentence>
+    <sentence lang="en_US">tickle you</sentence>
+   </triggerSentences>
+   <permissions/>
+  </behaviorContent>
+  <behaviorContent path="animations/tickle_1">
+   <nature></nature>
+   <tags>
+    <tag lang="en_US">tickle</tag>
+   </tags>
+   <permissions/>
+  </behaviorContent>
+  <behaviorContent path="animations/tickle_2">
+   <nature></nature>
+   <tags>
+    <tag lang="en_US">tickle</tag>
+   </tags>
+   <permissions/>
+  </behaviorContent>
+ </contents>
+ <requirements>
+  <naoqiRequirement minVersion="2.3"/>
+  <robotRequirement model="JULIETTE"/>
+ </requirements>
+</package>

@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<package version="0.0.1" uuid="date_dance-8b91ca">
+ <names>
+  <name lang="en_US">Date Dance</name>
+ </names>
+ <descriptions>
+  <description lang="en_US">Pepper dances the "Date" song by "I'm fresh! You're pretty!". Aldebaran has the copyright for public diffusion of this song.</description>
+ </descriptions>
+ <supportedLanguages>
+  <language>en_US</language>
+ </supportedLanguages>
+ <descriptionLanguages>
+  <language>en_US</language>
+ </descriptionLanguages>
+ <contents>
+  <behaviorContent path=".">
+   <userRequestable/>
+   <nature>interactive</nature>
+   <names>
+    <name lang="en_US">Fresh and Pretty Dance</name>
+   </names>
+   <tags>
+    <tag lang="en_US">dance</tag>
+   </tags>
+   <triggerSentences>
+    <sentence lang="en_US">Date dance</sentence>
+    <sentence lang="en_US">Pepper's date dance</sentence>
+    <sentence lang="en_US">Dance I'm fresh you're pretty</sentence>
+    <sentence lang="en_US">Fresh and pretty dance</sentence>
+   </triggerSentences>
+   <loadingResponses>
+    <sentence lang="en_US">I like this song!</sentence>
+    <sentence lang="en_US">Let's get fresh and pretty!</sentence>
+   </loadingResponses>
+   <autonomous/>
+   <permissions/>
+  </behaviorContent>
+ </contents>
+ <requirements>
+  <naoqiRequirement minVersion="2.3"/>
+  <robotRequirement model="JULIETTE"/>
+ </requirements>
+</package>

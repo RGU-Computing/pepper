@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<package version="0.0.0" uuid="temperature-42ac24">
+ <names>
+  <name lang="en_US">Temperature</name>
+ </names>
+ <supportedLanguages>
+  <language>en_US</language>
+ </supportedLanguages>
+ <descriptionLanguages>
+  <language>en_US</language>
+ </descriptionLanguages>
+ <contents>
+  <behaviorContent path="behavior_1">
+   <userRequestable/>
+   <nature>interactive</nature>
+   <triggerSentences>
+    <sentence lang="en_US">What is your temperature</sentence>
+    <sentence lang="en_US">What is my temperature</sentence>
+    <sentence lang="en_US">How hot are you</sentence>
+    <sentence lang="en_US">On a scale of one to covid how warm do you feel</sentence>
+   </triggerSentences>
+   <permissions/>
+  </behaviorContent>
+ </contents>
+</package>

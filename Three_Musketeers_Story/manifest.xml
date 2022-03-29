@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<package uuid="three_musketeers_story-b3c96d" version="0.0.1">
+ <names>
+  <name lang="en_US">Three Musketeers Story</name>
+ </names>
+ <descriptions>
+  <description lang="en_US">Pepper tells you the story of the Three Musketeers based on Alexandre Dumas' novel.</description>
+ </descriptions>
+ <supportedLanguages>
+  <language>en_US</language>
+ </supportedLanguages>
+ <descriptionLanguages>
+  <language>en_US</language>
+ </descriptionLanguages>
+ <contents>
+  <behaviorContent path=".">
+   <userRequestable/>
+   <nature>interactive</nature>
+   <names>
+    <name lang="en_US">Pepper's Three Musketeers Story</name>
+   </names>
+   <descriptions>
+    <description lang="en_US">Pepper tells you the story of the 3 musketeers, based on Alexandre Dumas' novel.</description>
+   </descriptions>
+   <tags>
+    <tag lang="en_US">story</tag>
+   </tags>
+   <triggerSentences>
+    <sentence lang="en_US">the three musketeers story</sentence>
+    <sentence lang="en_US">three musketeers</sentence>
+    <sentence lang="en_US">three musketeers story</sentence>
+    <sentence lang="en_US">pepper's three musketeers story</sentence>
+   </triggerSentences>
+   <loadingResponses>
+    <sentence lang="en_US">I hope you like this story!</sentence>
+    <sentence lang="en_US">It's a story based on Alexandre Dumas' novel.</sentence>
+   </loadingResponses>
+   <permissions>
+    <canStandUp/>
+    <canRunOnPod/>
+   </permissions>
+  </behaviorContent>
+  <behaviorContent path="animations/acclaimed">
+   <nature></nature>
+   <permissions/>
+  </behaviorContent>
+  <behaviorContent path="animations/cardinal">
+   <nature></nature>
+   <permissions/>
+  </behaviorContent>
+  <behaviorContent path="animations/brass-band">
+   <nature></nature>
+   <permissions/>
+  </behaviorContent>
+  <behaviorContent path="animations/fierce-duel">
+   <nature></nature>
+   <permissions/>
+  </behaviorContent>
+  <behaviorContent path="animations/horse-riding">
+   <nature></nature>
+   <permissions/>
+  </behaviorContent>
+  <behaviorContent path="animations/adventure">
+   <nature></nature>
+   <permissions/>
+  </behaviorContent>
+  <behaviorContent path="animations/bravest">
+   <nature></nature>
+   <permissions/>
+  </behaviorContent>
+  <behaviorContent path="animations/defeated">
+   <nature></nature>
+   <permissions/>
+  </behaviorContent>
+  <behaviorContent path="animations/louis">
+   <nature></nature>
+   <permissions/>
+  </behaviorContent>
+ </contents>
+ <requirements>
+  <naoqiRequirement minVersion="2.3"/>
+  <robotRequirement model="JULIETTE"/>
+ </requirements>
+</package>
