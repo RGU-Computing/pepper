@@ -69,20 +69,3 @@ How to fix the choreography lib not allowed
 Read the [User Guide](https://github.com/wildfireone/pepper/blob/master/PEPPER_UserGuide_EN_2019%2007%2005_1.pdf)
 Download [Choregraphe](https://www.softbankrobotics.com/emea/en/support/pepper-naoqi-2-9/downloads-softwares) and follow the guide [here](https://developer.softbankrobotics.com/pepper-naoqi-25/naoqi-developer-guide/choregraphe-suite)
  
-
- 
-
- 
-
-
-
- 
-
- 
-
-Face detectiuon and recognition tut  
-
-https://www.stsa.net.au/single-post/2017/05/05/pepper-tutorial-7-image-recognition 
-
-
-
