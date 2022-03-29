@@ -20,7 +20,7 @@
 ### The Wiki
 Please build up the wiki as you go. Add a link to any programs you make and describe what they do. 
 Add ifo about anything that you have found that isn't already there. 
-[wiki](https://github.com/wildfireone/pepper/wiki)
+####[wiki](https://github.com/wildfireone/pepper/wiki)
 
 ---
 
