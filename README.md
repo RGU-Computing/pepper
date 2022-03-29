@@ -23,10 +23,10 @@ Some documentation refers to NAQqi 2.9 and QiSDK, these are the newer, but highl
 
 ### Resources to get started with Pepper:
 
-[NAOqi Developer guide](http://doc.aldebaran.com/2-5/index_dev_guide.html)
-[Working Store and manage for Nao -2.5](https://cloud.aldebaran-robotics.com/application/dialog_meta/)
-[Latest Downloads](https://www.softbankrobotics.com/emea/en/support/pepper-naoqi-2-9/downloads-softwares)
-[All Downloads](https://www.softbankrobotics.com/emea/en/support/pepper-naoqi-2-9/downloads-softwares/former-versions?os=47&category=108 )
+*[NAOqi Developer guide](http://doc.aldebaran.com/2-5/index_dev_guide.html)
+*[Working Store and manage for Nao -2.5](https://cloud.aldebaran-robotics.com/application/dialog_meta/)
+*[Latest Downloads](https://www.softbankrobotics.com/emea/en/support/pepper-naoqi-2-9/downloads-softwares)
+*[All Downloads](https://www.softbankrobotics.com/emea/en/support/pepper-naoqi-2-9/downloads-softwares/former-versions?os=47&category=108 )
 
  
 
