@@ -33,20 +33,23 @@ Some documentation refers to NAQqi 2.9 and QiSDK, these are the newer, but highl
 
 Choregraphe - licence Key - 654e-4564-153c-6518-2f44-7562-206e-4c60-5f47-5f45
 
+#### Security Fix for Mac OS Monteray
+
+-How to fix the choreography lib not allowed-
+sudo xattr -r -d com.apple.quarantine ./choregraphe-suite-2.5.10.7-mac64 
+
 ---
 ### Where to start
 
 Read the [User Guide](https://github.com/wildfireone/pepper/blob/master/PEPPER_UserGuide_EN_2019%2007%2005_1.pdf)
-Download [Choregraphe](https://www.softbankrobotics.com/emea/en/support/pepper-naoqi-2-9/downloads-softwares) and follow the guide [here]()
+Download [Choregraphe](https://www.softbankrobotics.com/emea/en/support/pepper-naoqi-2-9/downloads-softwares) and follow the guide [here](https://developer.softbankrobotics.com/pepper-naoqi-25/naoqi-developer-guide/choregraphe-suite)
  
 
  
 
  
 
-How to fix the choreography lib not allowed sudo xattr -r -d com.apple.quarantine ./choregraphe-suite-2.5.10.7-mac64 
 
-sudo xattr -r -d com.apple.quarantine ./choregraphe-suite-2.5.10.7-mac64 
 
  
 
