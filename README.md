@@ -15,19 +15,28 @@ Once set up you need to connect pepper to the wifi network you have created.
 3. Click on the world symbol to set the wifi settings
 4. **DO NOT CONNECT PEPPER TO EDUROAM**
 
---
+---
 ### Info
 The version of NAOqi installed on pepper is 2.5.10, this is the latest version designed for research & development. It allows full, low-level access to all pepper's systems. 
 
 Some documentation refers to NAQqi 2.9 and QiSDK, these are the newer, but highly restricted OS & SDK. They are designed for end-users. QiSDK And NAOqi are not installed on our pepper (and can't be)
-
+---
 ### Resources to get started with Pepper:
 
-*[NAOqi Developer guide](http://doc.aldebaran.com/2-5/index_dev_guide.html)
-*[Working Store and manage for Nao -2.5](https://cloud.aldebaran-robotics.com/application/dialog_meta/)
-*[Latest Downloads](https://www.softbankrobotics.com/emea/en/support/pepper-naoqi-2-9/downloads-softwares)
-*[All Downloads](https://www.softbankrobotics.com/emea/en/support/pepper-naoqi-2-9/downloads-softwares/former-versions?os=47&category=108 )
+[NAOqi Developer guide](http://doc.aldebaran.com/2-5/index_dev_guide.html)
 
+[Working Store and manage for Nao -2.5](https://cloud.aldebaran-robotics.com/application/dialog_meta/)
+
+[Latest Downloads](https://www.softbankrobotics.com/emea/en/support/pepper-naoqi-2-9/downloads-softwares)
+
+[All Downloads](https://www.softbankrobotics.com/emea/en/support/pepper-naoqi-2-9/downloads-softwares/former-versions?os=47&category=108 )
+
+Choregraphe - licence Key - 654e-4564-153c-6518-2f44-7562-206e-4c60-5f47-5f45
+
+### Where to start
+
+Read the [User Guide]()
+Download [Choregraphe](https://www.softbankrobotics.com/emea/en/support/pepper-naoqi-2-9/downloads-softwares) and follow the guide [here]()
  
 
  
