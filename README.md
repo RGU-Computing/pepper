@@ -1,5 +1,27 @@
 # SoC - Pepper
 
+## RULES
+1. Pepper is a sophisticated piece of hardware but does have security vulnerabilities. While it may be fun to demonstrate these, bricking pepper will be an expensive excercise, please don't. There are much less sophistacated (re expensive) hardware examples we can use to demonstrate these. 
+
+2. Same goes for inappropriate actions etc. If you are wondering if something is inappropriate, it probably is. (Basically variations of don't tiktoc pepper swearing)
+
+3. If you do break something while running your code, make a note of what you were doing. If you can't fix it by turing pepper on and off again let Colin/John/Kyle know asap (this list may grow). 
+
+4. Use descriptive names for your applications & behaviours. Don't install anything called untitled, test or similar. Check the installed applications list in Choreography and make sure you use a unique name for your new behaviour. 
+
+5. Check your trigger words and environmental triggers, multiple behaviousl acting on the smae trigger word is a bad idea. 
+
+6. You have chosen wisely. But pepper cannot pass beyond the great seal. That is the boundary, and the price of development. (Really bad things will happen if Pepper leaves the office without letting someone know)
+
+7. If you do anything cool or find out some new info, add it to the wiki.
+
+---
+
+### The Wiki
+Please build up the wiki as you go. Add a link to any programs you make and describe what they do. 
+Add ifo about anything that you have found that isn't already there. 
+[wiki](https://github.com/wildfireone/pepper/wiki)
+
 ### Getting Started
 **DO NOT CONNECT PEPPER TO EDUROAM**
 
@@ -35,8 +57,9 @@ Choregraphe - licence Key - 654e-4564-153c-6518-2f44-7562-206e-4c60-5f47-5f45
 
 #### Security Fix for Mac OS Monteray
 
--How to fix the choreography lib not allowed-
-sudo xattr -r -d com.apple.quarantine ./choregraphe-suite-2.5.10.7-mac64 
+How to fix the choreography lib not allowed
+
+'''sudo xattr -r -d com.apple.quarantine ./choregraphe-suite-2.5.10.7-mac64'''
 
 ---
 ### Where to start
