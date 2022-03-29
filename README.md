@@ -61,7 +61,7 @@ Choregraphe - licence Key - 654e-4564-153c-6518-2f44-7562-206e-4c60-5f47-5f45
 
 How to fix the choreography lib not allowed
 
-'''sudo xattr -r -d com.apple.quarantine ./choregraphe-suite-2.5.10.7-mac64'''
+''sudo xattr -r -d com.apple.quarantine ./choregraphe-suite-2.5.10.7-mac64''
 
 ---
 ### Where to start
