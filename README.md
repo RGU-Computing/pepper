@@ -55,6 +55,8 @@ Some documentation refers to NAQqi 2.9 and QiSDK, these are the newer, but highl
 
 [All Downloads](https://www.softbankrobotics.com/emea/en/support/pepper-naoqi-2-9/downloads-softwares/former-versions?os=47&category=108 )
 
+[Soft Robotics Training Github](https://github.com/SoftBankRoboticsTraining)
+
 Choregraphe - licence Key - 654e-4564-153c-6518-2f44-7562-206e-4c60-5f47-5f45
 
 #### Security Fix for Mac OS Monteray
