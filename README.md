@@ -42,7 +42,7 @@ Once set up you need to connect pepper to the wifi network you have created.
 ---
 ### Info
 The version of NAOqi installed on pepper is 2.5.10, this is the latest version designed for research & development. It allows full, low-level access to all pepper's systems. 
-Some documentation refers to NAQqi 2.9 and QiSDK, these are the newer, but highly restricted OS & SDK. They are designed for end-users. QiSDK And NAOqi are not installed on our pepper (and can't be)
+Some documentation refers to NAQqi 2.9 and QiSDK, these are the newer, but highly restricted OS & SDK. They are designed for end-users. QiSDK And NAOqi 2.9 are not installed on our pepper (and can't be at the minute)
 
 ---
 ### Resources to get started with Pepper:
