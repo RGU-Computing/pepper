@@ -9,7 +9,7 @@
 
 4. Use descriptive names for your applications & behaviours. Don't install anything called untitled, test or similar. Check the installed applications list in Choreography and make sure you use a unique name for your new behaviour. 
 
-5. Check your trigger words and environmental triggers, multiple behaviousl acting on the smae trigger word is a bad idea. 
+5. Check your trigger words and environmental triggers, multiple behaviours acting on the same trigger word is a bad idea. 
 
 6. You have chosen wisely. But pepper cannot pass beyond the great seal. That is the boundary, and the price of development. (Really bad things will happen if Pepper leaves the office without letting someone know)
 
