@@ -1,6 +1,13 @@
-# SoC - Pepper
+<p float="left">
+ <h1><img src="https://user-images.githubusercontent.com/5123109/162197070-4909e214-122c-49e9-8307-77eac1e3db28.png" width="100" />
+ SoC - Pepper</h1>
+</p>
 
-## RULES
+```
+ "01001000 01100101 01101100 01101100 01101111 00100001" == Hello! 👋
+```
+
+### RULES
 1. Pepper is a sophisticated piece of hardware but does have security vulnerabilities. While it may be fun to demonstrate these, bricking pepper will be an expensive excercise, please don't. There are much less sophistacated (re expensive) hardware examples we can use to demonstrate these. 
 
 2. Same goes for inappropriate actions etc. If you are wondering if something is inappropriate, it probably is. (Basically variations of don't tiktoc pepper swearing)
@@ -30,7 +37,7 @@ Add info about anything that you have found that isn't already there.
 First you need to connect pepper to wifi to be able to send new programs. 
 The best way to do this is to connect your Laptop/Desktop to the internet via Ethernet and then share this ethernet via wifi. 
 
-[windows instructions](https://support.microsoft.com/en-us/windows/use-your-windows-pc-as-a-mobile-hotspot-c89b0fad-72d5-41e8-f7ea-406ad9036b85)
+[windows instructions](https://support.microsoft.com/en-us/windows/use-your-windows-pc-as-a-mobile-hotspot-c89b0fad-72d5-41e8-f7ea-406ad9036b85) |
 [mac instructions](https://support.apple.com/en-gb/guide/mac-help/mchlp1540/mac)
 
 Once set up you need to connect pepper to the wifi network you have created.
@@ -63,11 +70,12 @@ Choregraphe - licence Key - 654e-4564-153c-6518-2f44-7562-206e-4c60-5f47-5f45
 
 How to fix the choreography lib not allowed
 
-''sudo xattr -r -d com.apple.quarantine ./choregraphe-suite-2.5.10.7-mac64''
+```sudo xattr -r -d com.apple.quarantine ./choregraphe-suite-2.5.10.7-mac64```
 
 ---
 ### Where to start
 
 Read the [User Guide](https://github.com/wildfireone/pepper/blob/master/PEPPER_UserGuide_EN_2019%2007%2005_1.pdf)
+
 Download [Choregraphe](https://www.softbankrobotics.com/emea/en/support/pepper-naoqi-2-9/downloads-softwares) and follow the guide [here](https://developer.softbankrobotics.com/pepper-naoqi-25/naoqi-developer-guide/choregraphe-suite)
  
