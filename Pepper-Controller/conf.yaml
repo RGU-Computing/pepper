@@ -1,0 +1,241 @@
+default_chatbot_path: "mnt/c"
+
+torso_work_1:
+  position_list:
+    - ["neutral", "uklon_doprava", "ruce_v_bok"]
+    - ["neutral", "uklon_doleva", "ruce_v_bok"]
+
+neck_work_1:
+  position_list:
+    - ["toceni_doprava", "neutral", "ruce_v_bok"]
+    - ["toceni_doleva", "neutral", "ruce_v_bok"]
+
+neck_work_2:
+  position_list:
+    - ["predklon", "neutral", "ruce_v_bok"]
+    - ["zaklon", "neutral", "ruce_v_bok"]
+
+shoulder_work_1:
+  position_list:
+    - ["neutral", "neutral", "pripazit"]
+    - ["neutral", "neutral", "upazit"]
+
+shoulder_work_2:
+  position_list:
+    - ["neutral", "neutral", "predpazit"]
+    - ["neutral", "neutral", "zapazit"]
+
+shoulder_work_3:
+  position_list:
+    - ["neutral", "neutral", "upazit"]
+    - ["neutral", "neutral", "vzpazit"]
+
+arm_work_1:
+  position_list:
+    - ["neutral", "neutral", "biceps_flex"]
+    - ["neutral", "neutral", "biceps_relax"]
+
+arm_work_2:
+  position_list:
+    - ["neutral", "neutral", "triceps_extend"]
+    - ["neutral", "neutral", "triceps_relax"]
+
+
+arm_submove_1:
+    name: Neutral
+    id: neutral
+
+arm_submove_2:
+    name: Ruce v bok
+    id: ruce_v_bok
+
+arm_submove_3:
+    name: Upažit
+    id: upazit
+
+arm_submove_4:
+    name: Předpažit
+    id: predpazit
+
+arm_submove_5:
+    name: Vzpažit
+    id: vzpazit
+
+arm_submove_6:
+    name: Připažit
+    id: pripazit
+
+arm_submove_7:
+    name: Zapažit
+    id: zapazit
+
+head_submove_1:
+    name: Neutral
+    id: neutral
+
+head_submove_2:
+    name: Zaklonit
+    id: zaklon
+
+head_submove_3:
+    name: Předklonit
+    id: predklon
+
+head_submove_4:
+    name: Točení doleva
+    id: toceni_doleva
+
+head_submove_5:
+    name: Točení doprava
+    id: toceni_doprava
+
+head_submove_5:
+    name: Točení doprava
+    id: toceni_doprava
+
+torso_submove_1:
+    name: Neutral
+    id: neutral
+
+torso_submove_2:
+    name: Úklon doleva
+    id: uklon_doleva
+
+torso_submove_3:
+    name: Úklon doprava
+    id: uklon_doprava
+
+
+
+gesture_1:
+    name: Wave Hand
+    path_list:
+        - 'Gestures/Hey_1'
+        - 'Gestures/Hey_2'
+        - 'Gestures/Hey_3'
+        - 'Gestures/Hey_4'
+gesture_2:
+    name: Positive
+    path_list:
+        - 'Emotions/Positive/Laugh_1'
+        - 'Emotions/Positive/Laugh_2'
+        - 'Emotions/Positive/Laugh_3'
+        - 'Emotions/Positive/Hysterical_1'
+
+gesture_3:
+    name: Neutral
+    path_list:
+        - 'Emotions/Neutral/Suspicious_1'
+        - 'Emotions/Neutral/Michievous_1'
+        - 'Emotions/Neutral/Innocent_1'
+        - 'Emotions/Neutral/AskForAttention_1'
+
+gesture_4:
+    name: Negative
+    path_list:
+        - 'Emotions/Negative/Angry_1'
+        - 'Emotions/Negative/Angry_2'
+        - 'Emotions/Negative/Angry_3'
+        - 'Emotions/Negative/Sad_1'
+
+application_1:
+  name: Quiz
+  package: allinonequiz-7404fa/behavior_1
+application_2:
+  name: Mapy
+  package: universal_test-283d04/behavior_1
+application_3:
+  name: Osobnosti
+  package: untitled-4fccc1/behavior_1
+application_4:
+  name: Paměť
+  package: remember_objects-e9fb3e/behavior_1
+application_5:
+  name: Video Quiz
+  package: universal_test-283d06/behavior_1
+application_6:
+  name: Zvíře
+  package: hadejzvire-5e66aa/behavior_1
+application_7:
+  name: App7
+  package:
+application_8:
+  name: App8
+  package:
+
+configuration:
+  default_ip: 10.37.1.243
+  default_port: 9559
+  default_sentence: Hello, I am so glad to be here!!!
+  logo: http://people.ciirc.cvut.cz/sejnogab/logo.jpg
+  pozvanka: https://github.com/incognite-lab/Pepper-Controller/raw/main/incognitelogo.png
+  version: 2.0.1
+  virtual: False
+language:
+  lang: "cz"
+  cz:
+    test_sentence: "Ahoj, tohle je moje zkouška hlasu."
+    yes_list:
+      - 'ano'
+      - 'jistě'
+      - 'samozřejmě'
+      - 'to souhlasí'
+      - 'souhlasím'
+      - 'na tom se shodneme'
+    no_list:
+      - 'ne'
+      - 'to nesouhlasí'
+      - 'nesouhlasím'
+    dont_know_list:
+      - 'bohužel nevím'
+      - 'omlouvám se, ale nevím'
+      - 'netuším'
+    welcome:
+      - 'Dobrý den'
+    hello:
+      - 'dobrý den'
+      - 'zdravím'
+      - 'zdravíčko'
+    name:
+      - 'Já jsem robot pepr'
+  en:
+    test_sentence: "Hello, this is the test of my voice."
+    yes_list:
+      - 'yes'
+      - 'sure'
+      - 'of course'
+      - 'yeah'
+      - 'that is true'
+      - 'i agree'
+      - 'you are right'
+      - 'yes sir'
+      - 'yes, of course'
+    no_list:
+      - 'no'
+      - 'nope'
+      - 'no way'
+      - 'i do not agree'
+      - 'this is not correct'
+    dont_know_list:
+      - 'i have no idea'
+      - 'i do not know'
+      - 'sorry, I have no idea'
+      - 'i am not sure'
+      - 'not sure about this'
+      - 'i do not know the correct answer'
+    welcome:
+      - 'Hello, my name is pepper and I am a humanoid robot. I am happy to see you on this occasion.'
+    invitation_morning:
+      - 'Please come to the talk'
+    slosovani:
+      - 'Please come to some other action.'
+    hello:
+      - 'hello'
+      - 'hi everybody'
+      - 'nice to be here'
+      - 'nice to meet you'
+      - 'hello my friend'
+      - 'it is a plesure to meet you'
+      - 'what an honour to see you'
+    name:
+      - 'I am pepper robot.'
