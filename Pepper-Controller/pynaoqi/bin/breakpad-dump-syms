@@ -1,0 +1,121 @@
+#!/bin/bash
+## Author(s):
+##  - Samuel MARTIN <smartin@aldebaran-robotics.com>
+##
+## Copyright (C) 2012 Aldebaran Robotics
+##
+
+get_version() {
+  printf "%-80s\n" "breakpad (google-breakpad) symbol dumping tool."
+  printf "%-80s\n" "Version: unknown, so let's say 42."
+  printf "%-80s\n" "Powered by the Aldebaran Robotics plumber team."
+}
+
+usage() {
+  printf "%-80s\n\n" "usage ${0} [OPTIONS] SYMSPOOLDIR [ELF_FILE|DIRECTORY] ..."
+  printf "%-80s\n"   "description:"
+  printf "%-80s\n"   "  This tool dumps symbols from the ELF_FILE(s) passed as"
+  printf "%-80s\n"   "  argument or found in the directories (and subdirectories)"
+  printf "%-80s\n"   "  and store the generated symbol file(s) into the SYMSPOOLDIR,"
+  printf "%-80s\n"   "  automatically creating the tree-structure compatible with"
+  printf "%-80s\n\n" "  minidump* tools."
+  printf "%-80s\n"   "options:"
+  printf "%-80s\n"   "  -t TEMP_FILE,--temp-file TEMP_FILE"
+  printf "%-80s\n"   "                 Temporary file which symbols will be dumped"
+  printf "%-80s\n"   "  -b DUMP_SYMS_BINARY,--dump-bin DUMP_SYMS_BINARY"
+  printf "%-80s\n"   "                 Path of the dump-syms binary"
+  printf "%-80s\n"   "  -s STRIP_CMD,--strip STRIP_CMD"
+  printf "%-80s\n"   "                 Strip command (including options)"
+  printf "%-80s\n"   "  -v,--verbose   Display stderr"
+  printf "%-80s\n"   "  -V,--version   Display the version of this wrapper"
+  printf "%-80s\n"   "  -h,--help      Display this help"
+}
+
+cmdline="${0} ${@}"
+
+die() {
+  printf "\nERROR: %s\n" "${@}"
+  printf "\ncmdline: %s\n\n" "${cmdline}"
+  usage
+  exit 1
+}
+
+## setting defaults
+elf_files=
+symsdir=
+arg_temp=
+arg_dump_bin=$(which dump_syms 2>/dev/null)
+arg_strip=
+arg_remain=
+arg_verbose=
+
+## parsing args
+while [ ${#} -gt 0 ] ; do
+  case "${1}" in
+    '-v'|'--verbose') arg_verbose="y" ;;
+    '-t'|'--temp-file') arg_temp="${2}"; shift ;;
+    '-b'|'--dump-bin') arg_dump_bin="${2}"; shift ;;
+    '-s'|'--strip') arg_strip="${2}"; shift ;;
+    '-V'|'--version') get_version ; exit ;;
+    '-h'|'--help') usage ; exit ;;
+    *) arg_remain="${arg_remain} ${1}"
+  esac
+  shift
+done
+
+arg_remain="$(echo ${arg_remain} | sed -e 's;^[ ]\+;;' -e 's;[ ]\+$;;')"
+symsdir="${arg_remain%% *}"
+elf_files="${arg_remain#* }"
+
+_real_elf=
+for _elf in ${elf_files}; do
+  [ -h ${_elf} ] && continue
+  if [ -f ${_elf} ] ; then
+    _real_elf="${_real_elf} ${_elf}"
+  elif [ -d ${_elf} ] ; then
+    for _f in $(find ${_elf} -type f) ; do
+      file ${_f} | grep -qE 'ELF (32|64)-bit LSB (shared object|executable)' && \
+        _real_elf="${_real_elf} ${_f}"
+    done
+  fi
+done
+
+
+[ $(echo ${arg_temp} | wc -w) -gt 0 ] || arg_temp=$(mktemp)
+
+## sanity checks
+[ -x "${arg_dump_bin}" ]  || die "command not found: dump_syms"
+[ -n "${_real_elf}" ]     || die "no valid elf-file to process."
+[ -n "${symsdir}" ]       || die "empty SYMSDIR"
+[ -d "${symsdir}" ]       || die "no such file or directory: SYMSDIR"
+_symsdir_access=$(mktemp -p "${symsdir}") && rm "${_symsdir_access}" || \
+  die "no write access: SYMSDIR"
+
+process_elf() {
+  local _elffile="${1}"
+  local _symfile= _symhash=
+  if [ "${arg_verbose}" = 'y' ] ; then
+    ${arg_dump_bin} "${_elffile}" > "${arg_temp}"
+  else
+    ${arg_dump_bin} "${_elffile}" > "${arg_temp}" 2>/dev/null
+  fi
+  _symhash=$(head -n1 "${arg_temp}" | cut -d' ' -f4)
+  if [ ${#_symhash} -ne 0 ] ; then
+    _symfile="${symsdir}/${_elffile##*/}/${_symhash}/${_elffile##*/}.sym"
+    mkdir -p "${_symfile%/*}"
+    mv -f "${arg_temp}" "${_symfile}"
+  fi
+  rm -f "${arg_temp}"
+  if [ -n "${_symfile}" ] && [ ! -f "${_symfile}" ] ; then
+    printf "\nERROR: failed to process          : %s" "${_elffile}"
+    printf "\n       cannot generate symbol file: %s\n" "${_symfile}"
+    return 1
+  fi
+  return 0
+}
+
+## dump symbols and optionally strip binary
+for _elf in ${_real_elf}; do
+  process_elf "${_elf}" || exit 1
+  [ -z "${arg_strip}" ] || ${arg_strip} "${_elf}"
+done
