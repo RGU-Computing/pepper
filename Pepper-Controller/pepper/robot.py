@@ -61,7 +61,7 @@ class Pepper:
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.load_system_host_keys()
-        ssh.connect(hostname=self.ip_address, username="nao", password="nao")
+        ssh.connect(hostname=self.ip_address, username="nao", password="p3pp3r")
         self.scp = SCPClient(ssh.get_transport())
         self.app = qi.Application(["ReactToTouch","HumanGreeter", "--qi-url=" + connection_url])
         self.human_reco = HumanGreeter(self.app)
