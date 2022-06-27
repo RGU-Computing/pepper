@@ -105,7 +105,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--ip', type=str, default='127.0.0.1', help='Robot IP Address. For local bot use 127.0.0.1.')
     parser.add_argument('--port', type=int, default=9559, help='NaoQI port number.')
-    parser.add_argument('--project_id', type=str, required=True, help='Google Cloud Project ID.')
     args = parser.parse_args()
 
     try:
