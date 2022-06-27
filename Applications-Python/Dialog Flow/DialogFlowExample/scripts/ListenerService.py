@@ -1,5 +1,10 @@
 import qi
-from naoqi import ALBroker, ALModule, ALProxy
+
+import stk.runner
+import stk.events
+import stk.services
+import stk.logging
+
 import numpy
 
 import json
@@ -39,61 +44,37 @@ def byteify(input):
         return input
 
 
-def get_logger(session, app_id):
-    """Returns a qi logger object."""
-    logger = qi.logging.Logger(app_id)
-    try:
-        qicore = qi.module("qicore")
-        log_manager = session.service("LogManager")
-        provider = qicore.createObject("LogProvider", log_manager)
-        log_manager.addProvider(provider)
-    except RuntimeError:
-        # no qicore, we're not running on a robot, it doesn't matter
-        pass
-    except AttributeError:
-        # old version of NAOqi - logging will probably not work.
-        pass
-    return logger
-
-
-class ListenerModule(ALModule):
+class ListenerService(object):
     """
     Audio processing module.
     Detect peaks in users voices, then record what they are saying to transmit it to Dialog Flow.
     """
 
-    def __init__(self, name):
-        # TODO: For when we're dismantling, does this need to be an ALModule?
-        try:
-            ALModule.__init__(self, name)
-        except Exception as e:
-            print(str(e))
-            pass
+    def __init__(self, qiapp):
+        # generic activity boilerplate
+        self.qiapp = qiapp
+        self.events = stk.events.EventHelper(qiapp.session)
+        self.s = stk.services.ServiceCache(qiapp.session)
+        self.logger = stk.logging.get_logger(qiapp.session, 'uk.ac.rgu.ListenerService')
 
         # Project ID for dialog flow, populated later.
         self.google_project_id = None
 
         # Get robot memory so we can attach to some events
-        self.mem = ALProxy('ALMemory')
-
-        # Get a session handle also
-        self.session = self.mem.session()
-
-        # Get logger
-        self.logger = get_logger(self.session, 'uk.ac.rgu.ListenerService')
+        self.mem = self.s.ALMemory
 
         # Get robot LEDs so we can control eye colour
-        self.leds = ALProxy('ALLeds')
+        self.leds = self.s.ALLeds
 
         # Get Pepper's audio device
-        self.audio_device = self.session.service('ALAudioDevice')
+        self.audio_device = self.s.ALAudioDevice
         self.speaker_hook = None
 
         # Get the speech recognition module so we can disable it.
-        self.speech = ALProxy('ALSpeechRecognition')
+        self.speech = self.s.ALSpeechRecognition
 
         # Get dialog flow and vosk modules.
-        self.dialogflow = self.session.service('DialogFlowService')
+        self.dialogflow = self.s.DialogFlowService
         self.vosk = None  # initialized if vosk is enabled
 
         # Properties for voice detection and recording
@@ -118,11 +99,12 @@ class ListenerModule(ALModule):
         self.vosk_api = False
 
         # Proxies for handling responses
-        self.tts = ALProxy('ALTextToSpeech')
-        self.tablet = ALProxy('ALTabletService')
-        self.behavior_manager = ALProxy('ALBehaviorManager')
+        self.tts = self.s.ALTextToSpeech
+        self.tablet = self.s.ALTabletService
+        self.behavior_manager = self.s.ALBehaviorManager
 
     # TODO: Is there a way to avoid needing a package_uuid passing in?
+    @qi.bind(returnType=qi.Void, paramsType=[qi.String, qi.String])
     def start_listening(self, google_project_id, package_uuid):
         # Save package uuid
         self.google_project_id = google_project_id
@@ -130,10 +112,10 @@ class ListenerModule(ALModule):
 
         # Configure audio device. 16000 sample rate, 3 = Front Mic, 0 = no deinterlacing, we do that ourselves
         # TODO: Future: Might be worth investigating using a higher sample rate and filtering the audio channels.
-        self.audio_device.setClientPreferences(self.getName(), 16000, 3, 0)
+        self.audio_device.setClientPreferences('ListenerService', 16000, 3, 0)
 
         # Subscribe to audio processing events
-        self.audio_device.subscribe(self.getName())
+        self.audio_device.subscribe('ListenerService')
 
         # Disable speech recognition
         self.speech.pause(True)
@@ -147,6 +129,7 @@ class ListenerModule(ALModule):
         # Start dialogflow session
         self.dialogflow.begin_session(str(self.google_project_id), str(self.session_id), 'en-GB')
 
+    @qi.bind(returnType=qi.Void, paramsType=[])
     def cleanup(self):
         """Use this to tidy up any event subscriptions and to resume the built-in text to speech."""
         # Turn speech recognition back on as normal
@@ -163,17 +146,15 @@ class ListenerModule(ALModule):
         # End the dialog flow session.
         self.dialogflow.end_session()
 
-    def set_vosk_enabled(self, enabled):
+    @qi.bind(returnType=qi.Void)
+    def enable_vosk(self):
         """
         Enable the VOSK transcription API.
         This is experimental and underdeveloped and thus has some accuracy issues.
         However, if worked on more could produce better latency results.
         """
-        self.vosk_api = enabled
-
-        # If we're enabling, try and find the vosk service.
-        if enabled:
-            self.vosk = self.session.service('VoskClient')
+        self.vosk_api = True
+        self.vosk = self.session.service('VoskClient')
 
     # TODO: Ensure this is fully working as expected.
     def speakers_playing(self, playing):
@@ -183,6 +164,7 @@ class ListenerModule(ALModule):
         else:
             self.eyes_idle()
 
+    @qi.nobind
     def begin_record(self, previous_sound_data):
         # Initialize a "memory file". I believe StringIO is used so that it can be passed through the naoqi broker
         # without serialization issues (numpy.int16)?
@@ -199,6 +181,7 @@ class ListenerModule(ALModule):
 
         self.logger.info('Recording has started.')
 
+    @qi.nobind
     def stop_record(self):
         # Clear last saved data
         self.previous_data = None
@@ -207,6 +190,7 @@ class ListenerModule(ALModule):
         # Clear eye indicator
         self.eyes_idle()
 
+    @qi.nobind
     def process_audio(self):
         """
         Process the recorded audio and send it to dialogflow for intent processing.
@@ -292,6 +276,7 @@ class ListenerModule(ALModule):
             self.stop_record()
             self.process_audio()
 
+    @qi.nobind
     def handle_actions(self, response):
         """
         Handle the actions of a dialogflow response
@@ -349,40 +334,26 @@ class ListenerModule(ALModule):
 
     # TODO: Fix the eyes?
 
+    @qi.nobind
     def eyes_listening(self):
         """Makes Pepper's eyes blue to indicate listening"""
         self.set_eyes(0, 0, 255)
 
+    @qi.nobind
     def eyes_idle(self):
         """Makes Pepper's eyes white to indicate idling"""
         self.set_eyes(255, 255, 255)
 
+    @qi.nobind
     def eyes_ignoring(self):
         """Makes Pepper's eyes red to indicate ignorance"""
         self.set_eyes(255, 0, 0)
 
+    @qi.nobind
     def set_eyes(self, r, g, b):
         """Set Pepper's face LEDs"""
         self.leds.fadeRGB("FaceLeds", r / 255, g / 255, b / 255, 0)
 
 
-if __name__ == '__main__':
-    try:
-        # Set up a bidirectional broker to communicate with Pepper.
-        pythonBroker = ALBroker('pythonBroker', '0.0.0.0', 9999, '127.0.0.1', 9559)
-        #pythonBroker = ALBroker('pythonBroker', '0.0.0.0', 9999, 'pepper.local.', 9559)  # For testing
-    except RuntimeError:
-        print('Failed to connect to Naoqi. Please check script arguments.')
-        sys.exit(1)
-
-    # Create audio processor
-    ListenerService = ListenerModule('ListenerService')
-    # ListenerService = ListenerModule('ListenerService', args.project_id)
-
-    # Keep program running until we tell it to quit.
-    try:
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        ListenerService.cleanup()
-        sys.exit(0)
+if __name__ == "__main__":
+    stk.runner.run_service(ListenerService)
