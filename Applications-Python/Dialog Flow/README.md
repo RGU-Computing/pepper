@@ -23,11 +23,8 @@ Both services that can be run on the laptop (DialogFlowService and VoskClient) a
 service.py --ip <ROBOT IP> --port <ROBOT PORT>
 ```
 
-In addition, to authorise to Google Cloud for Dialog Flow, you must set GOOGLE_APPLICATION_CREDENTIALS in the environment variables to the correct path to your JSON token. I'd recommend reading the setup steps for Dialog Flow [here](https://cloud.google.com/dialogflow/es/docs/quick/setup)
-
-TODO:
-- Configuring the behaviour
+In addition, to authorise to Google Cloud for Dialog Flow, you must set GOOGLE_APPLICATION_CREDENTIALS in the environment variables to the correct path to your JSON token. I'd recommend reading the setup steps for Dialog Flow [here](https://cloud.google.com/dialogflow/es/docs/quick/setup).
 
 ## Customisation
-You can customise the listener's respones to actions by editing handle_actions in ListenerService.py.
+You can customise the listener's respones to actions by editing `handle_actions` in `ListenerService.py`.
 By default it can open urls, display local assets, clear the tablet and speak. It can also fire events to ALMemory if you haven't hard-coded a custom response for it. Hardcoding a response or custom action is only really necessary for when you need parameters to be returned via your action.

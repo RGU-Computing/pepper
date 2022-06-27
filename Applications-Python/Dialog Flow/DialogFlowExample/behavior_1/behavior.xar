@@ -7,10 +7,13 @@ class MyClass(GeneratedClass):
 
     def onLoad(self):
         self.serviceMan = ALProxy('ALServiceManager')
+        self.listener = None
         pass
 
     def onUnload(self):
         # Stop our service from running in the background once the behaviour ends.
+        if self.listener is not None:
+            self.listener.cleanup()
         self.serviceMan.stopService('ListenerService')
         pass
 
@@ -22,10 +25,10 @@ class MyClass(GeneratedClass):
         # TODO: Graceful error exits.
 
         # Start listening.
-        listener = ALProxy('ListenerService')
+        self.listener = ALProxy('ListenerService')
 
         # Start listening. Initialises dialogflow with a project id. Change this to your own.
-        listener.start_listening('soc-pepper-summer', self.packageUid())
+        self.listener.start_listening('soc-pepper-summer', self.packageUid())
 
         # Fire any program init now.
         self.onStarted()

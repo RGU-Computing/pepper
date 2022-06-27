@@ -141,7 +141,7 @@ class ListenerService(object):
         self.speech.pause(False)
 
         # Unsubscribe from audio processing
-        self.audio_device.unsubscribe(self.getName())
+        self.audio_device.unsubscribe('ListenerService')
 
         # Not listening
         self.is_listening = False
