@@ -1,3 +1,8 @@
+# This is a microphone listener that connects with Dialog Flow (and optionally Vosk)
+# This listens to the microphone input, and when a peak is detected (hardcoded below) it will start recording.
+# Once the audio volume subsides for long enough, recording is stopped and the sound generated is processed.
+# Then the actions returned by dialogflow are carried out.
+
 import qi
 
 import stk.runner
@@ -51,7 +56,7 @@ class ListenerService(object):
     """
 
     def __init__(self, qiapp):
-        # generic activity boilerplate
+        # STK Boilerplate
         self.qiapp = qiapp
         self.events = stk.events.EventHelper(qiapp.session)
         self.s = stk.services.ServiceCache(qiapp.session)
