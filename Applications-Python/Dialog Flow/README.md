@@ -3,12 +3,9 @@ This folder contains four projects that are used to make Pepper utilise Dialog F
 
 This project has been inspired and influenced by [this blog post](https://blogemtech.medium.com/pepper-integration-with-dialogflow-1d7f1582da1a).
 
-## TODOs
-- Maybe merge VoskClient and DialogFlowService into one bundle with a flag to enable vosk? That way they could also utilise stk and simplify their code? Not urgent however
-
 ## Projects
 - DialogFlowService: This is a NAOqi service that runs on a laptop, it exposes some of the dialog flow API to Pepper. This is done because it is currently not possible to install the API on Pepper using pip.
-- VoskClient: This is a socket client for a python 3 vosk server (see below).
+- VoskClient: This is a socket client for a python 3 vosk server (see below). This has been kept in a separate project to DialogFlowService even though they have a lot of duplicated code as VoskClient isn't ready for prime use, it is still very much a prototype.
 - VoskServer: This is a Python 3 server hosting access to the Vosk Speech Recognition API. It was used during an experiment and can be optionally toggled in DialogFlowExample's demonstration listener service.
 - DialogFlowExample: This Choregraphe project ties all of the above services together to create a basic dialog flow program. It contains the barebones and can be used as a template to create further applications.
 
@@ -26,5 +23,49 @@ service.py --ip <ROBOT IP> --port <ROBOT PORT>
 In addition, to authorise to Google Cloud for Dialog Flow, you must set GOOGLE_APPLICATION_CREDENTIALS in the environment variables to the correct path to your JSON token. I'd recommend reading the setup steps for Dialog Flow [here](https://cloud.google.com/dialogflow/es/docs/quick/setup).
 
 ## Customisation
-You can customise the listener's respones to actions by editing `handle_actions` in `ListenerService.py`.
+You can customise the listener's respones to actions by editing `handle_actions` in `ListenerService.py`. More on that later in the README.
 By default it can open urls, display local assets, clear the tablet and speak. It can also fire events to ALMemory if you haven't hard-coded a custom response for it. Hardcoding a response or custom action is only really necessary for when you need parameters to be returned via your action.
+
+## Creating a new project
+To create a new project with dialog flow, you'll want to follow the setup above, as well as create a new Dialog Flow Agent.
+To create a new Choregraphe program, create it as you would normally, then copy and paste `DialogFlowExample/scripts` into your new project. Then add the following to your `manifest.xml`:
+```xml
+<services>
+  <service execStart="/usr/bin/python2 scripts/ListenerService.py" name="ListenerService" autorun="false"/>
+</services>
+```
+This tells NAOqi to install the ListenerService. Then you'll want to copy the "Start Listener" block from the graph into your own project. This just promps NAOqi to launch this service and starts it's listener. Remember to have the Dialog Flow server running on your PC before you do, otherwise it will not work.
+
+## Payloads
+This implementation supports many pre-defined payloads and you can add your own too.
+
+### Speech
+Adding text responses adds to the pool of potential lines to say. One of these will be picked by dialogflow to be said.
+You could add a payload to add more speech if you'd like, but that was out of scope for what this was designed for.
+Multiple speech will cause large delay in execution and the custom payloads would execute before the speech.
+
+### Show URL
+```json
+{
+    "action": "show_url",
+    "url": "<local or remote path>"
+}
+```
+
+### Clear Tablet
+```json
+{
+    "action": "clear_tablet"
+}
+```
+
+### Run Behaviour
+```json
+{
+    "action": "behavior",
+    "behavior": "<behaviour id>"
+}
+```
+
+### Custom Actions
+Custom actions can either be implemented by adding them in the `ListenerService.py` `handle_actions` method, or they can be added in your Choregraphe (if they are "bang" type actions). This can be done by adding a switch onto the ALMemory event `DialogFlowAction` which will fire with the `action` component of the payload.
