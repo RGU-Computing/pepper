@@ -3,14 +3,14 @@
 # Once the audio volume subsides for long enough, recording is stopped and the sound generated is processed.
 # Then the actions returned by dialogflow are carried out.
 
-import qi
+# A future improvement would be to monitor the ambient audio volume and listen for peaks
 
+import numpy
+import qi
 import stk.runner
 import stk.events
 import stk.services
 import stk.logging
-
-import numpy
 
 import json
 import os
@@ -23,7 +23,7 @@ import uuid
 LISTENING_RETRY_COUNT = 15
 
 # The minimum audio peak to trigger a recording.
-AUDIO_PEAK_THRESHOLD = 4000
+AUDIO_PEAK_THRESHOLD = 3500
 
 # Cap at 10 seconds, speech rec gets funny after this.
 MAX_RECORD_TIME = 10
@@ -78,7 +78,7 @@ class ListenerService(object):
         # Get the speech recognition module so we can disable it.
         self.speech = self.s.ALSpeechRecognition
 
-        # Get dialog flow and vosk modules.
+        # Dialog Flow and Vosk
         self.dialogflow = self.s.DialogFlowService
         self.vosk = None  # initialized if vosk is enabled
 
@@ -161,18 +161,15 @@ class ListenerService(object):
         self.vosk_api = True
         self.vosk = self.session.service('VoskClient')
 
-    # TODO: Ensure this is fully working as expected.
     def speakers_playing(self, playing):
+        """Callback for Audio Device speakers. Prevents Pepper listening to itself."""
         self.is_paused = playing
-        if self.is_paused:
-            self.eyes_ignoring()
-        else:
-            self.eyes_idle()
 
     @qi.nobind
     def begin_record(self, previous_sound_data):
-        # Initialize a "memory file". I believe StringIO is used so that it can be passed through the naoqi broker
-        # without serialization issues (numpy.int16)?
+        """Begin recording by initialising a buffer for audio and writing any previous data"""
+        # Initialize some memory for us to record to
+        # StringIO is used so that it can be passed through the naoqi broker without serialization issues
         self.sound_file = StringIO.StringIO()
         self.is_recording = True
         self.record_start = time.time()
@@ -181,24 +178,21 @@ class ListenerService(object):
         if previous_sound_data is not None:
             self.sound_file.write(previous_sound_data[0].tostring())
 
-        # Set eyes indicator TODO: Without lag please Pepper?
-        self.eyes_listening()
-
         self.logger.info('Recording has started.')
 
     @qi.nobind
     def stop_record(self):
+        """Stop recording, clear any previous data"""
         # Clear last saved data
         self.previous_data = None
         self.is_recording = False
-
-        # Clear eye indicator
-        self.eyes_idle()
 
     @qi.nobind
     def process_audio(self):
         """
         Process the recorded audio and send it to dialogflow for intent processing.
+        If Vosk API is enabled, audio will be processed first then sent as text to dialogflow.
+        Otherwise, audio data will be sent to dialogflow.
         """
 
         # Send buffer pointer back to the start
@@ -235,20 +229,20 @@ class ListenerService(object):
     def processRemote(self, channels, samples, _timestamp, audio_buffer):
         """Callback for audio processing."""
 
-        # TODO: It seems some of the data loss could be due to inefficiencies in this function?
-        #       Worth further investigation..
+        # If you are using inteleaved data, you'll want to use this commented block instead of just converting from a
+        #interleaved_data = numpy.fromstring(str(audio_buffer), dtype=numpy.int16)  # Load from a string
+        #sound_data = numpy.reshape(interleaved_data, (channels, samples), 'F')  # Split data by channels
 
-        # Load the data by casting to an array of 16-bit ints.
-        interleaved_data = numpy.fromstring(str(audio_buffer), dtype=numpy.int16)
-
-        # Deinterleave the data by splitting by channel
-        sound_data = numpy.reshape(interleaved_data, (channels, samples), 'F')
+        # Load the single-channel sound data.
+        sound_data = numpy.fromstring(str(audio_buffer), dtype=numpy.int16)
 
         # Save this last frame in case next frame we begin recording
         self.previous_data = sound_data
 
         # If we ain't listening, don't process
         if self.is_paused:
+            # Show that Pepper isn't listening.
+            self.eyes_ignoring()
             if self.is_recording:
                 self.stop_record()
             return
@@ -257,8 +251,8 @@ class ListenerService(object):
         peak = numpy.max(sound_data)
 
         # If we peak, reset the counter and start recording if we haven't
-        # If we have, we reset the listen count.
         if peak >= AUDIO_PEAK_THRESHOLD:
+            # Reset the retry count. We use this to determine when the user finishes speaking.
             self.retries = LISTENING_RETRY_COUNT
             if not self.is_recording:
                 self.logger.info('START')
@@ -266,20 +260,30 @@ class ListenerService(object):
 
         # If we are recording, knock the retry counter down and save this data.
         if self.is_recording:
+            # Change eyes to indicate listening
+            self.eyes_listening()
+
             self.retries -= 1
-            self.sound_file.write(sound_data[0].tostring())
+            #self.sound_file.write(sound_data[0].tostring())
+            self.sound_file.write(sound_data.tostring()) # TODO: Test new audio data stuff
 
-        # If we've been recording too long, cut them short.
-        if self.is_recording and time.time() - self.record_start > MAX_RECORD_TIME:
-            self.logger.warn('Sentence was too long.')
-            self.stop_record()
-            # self.tts.say('Sorry, that sentence was too big. Could you try again?')
+            # Don't listen for too long
+            if time.time() - self.record_start > MAX_RECORD_TIME:
+                self.logger.warn('Sentence was too long.')
+                self.stop_record()
 
-        # If the user has stopped speaking, process the audio
-        if self.is_recording and self.retries <= 0:
-            self.logger.info('Stopping')
-            self.stop_record()
-            self.process_audio()
+            # User may have stopped speaking
+            if self.retries <= 0:
+                self.logger.info('Stopping')
+                self.stop_record()
+
+                # Pepper will likely not be listening while we process.
+                self.eyes_ignoring()
+                self.process_audio()
+        else:
+            # Change to indicate idling.
+            self.eyes_idle()
+
 
     @qi.nobind
     def handle_actions(self, response):
@@ -288,6 +292,12 @@ class ListenerService(object):
         :param response: The dialogflow response as a dict. Must be accessed as response[...]
         """
 
+        # If we have no result, don't run.
+        # This doesn't tend to happen but its a nice safeguard.
+        if not 'queryResult' in response:
+            return
+
+        # Easy access to the query result.
         query_result = response['queryResult']
 
         # Iterate over the additional payloads
@@ -299,17 +309,15 @@ class ListenerService(object):
                     action = payload['action']
                     if action == 'show_url':
 
-                        self.tablet.showWebview(payload['url'])
+                        url = payload['url']
 
-                    elif action == 'show_local':  # TODO: Collapse into show_url...
-
-                        path = payload['path']
-                        url = 'http://%s/apps/%s' % (self.tablet.robotIp(),
+                        if not url.startswith('http'):
+                            url = 'http://%s/apps/%s' % (self.tablet.robotIp(),
                                                      os.path.join(self.package_uuid,
-                                                                  os.path.normpath(path).lstrip("\\/"))
+                                                                  os.path.normpath(url).lstrip("\\/"))
                                                      .replace(os.path.sep, "/"))
-
-                        self.tablet.showWebview(str(url))
+                        
+                        self.tablet.showWebview(url)
 
                     elif action == 'clear_tablet':
 
@@ -328,6 +336,7 @@ class ListenerService(object):
                             self.behavior_manager.runBehavior(str(name))
                         except Exception as ex:
                             self.logger.error('Failed to start "%s"' % name, ex)
+                    
                     # TODO: If an application developer wants a "rich" event, add it here.
                     else:
                         # Pass a generic action "bang" event.
@@ -336,8 +345,6 @@ class ListenerService(object):
         # Say the fulfilment text
         if 'fulfillmentText' in query_result:
             self.tts.say(query_result['fulfillmentText'])
-
-    # TODO: Fix the eyes?
 
     @qi.nobind
     def eyes_listening(self):
@@ -357,7 +364,7 @@ class ListenerService(object):
     @qi.nobind
     def set_eyes(self, r, g, b):
         """Set Pepper's face LEDs"""
-        self.leds.fadeRGB("FaceLeds", r / 255, g / 255, b / 255, 0)
+        self.leds.fadeRGB("FaceLeds", r / 255, g / 255, b / 255, 0)  # 0 seconds fade to not freeze our listener
 
 
 if __name__ == "__main__":
