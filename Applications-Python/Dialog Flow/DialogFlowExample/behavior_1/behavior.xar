@@ -24,7 +24,7 @@ class MyClass(GeneratedClass):
 
         # TODO: Graceful error exits.
 
-        # Start listening.
+        # Get the listener service
         self.listener = ALProxy('ListenerService')
 
         # Start listening. Initialises dialogflow with a project id. Change this to your own.

@@ -22,10 +22,6 @@ service.py --ip <ROBOT IP> --port <ROBOT PORT>
 
 In addition, to authorise to Google Cloud for Dialog Flow, you must set GOOGLE_APPLICATION_CREDENTIALS in the environment variables to the correct path to your JSON token. I'd recommend reading the setup steps for Dialog Flow [here](https://cloud.google.com/dialogflow/es/docs/quick/setup).
 
-## Customisation
-You can customise the listener's respones to actions by editing `handle_actions` in `ListenerService.py`. More on that later in the README.
-By default it can open urls, display local assets, clear the tablet and speak. It can also fire events to ALMemory if you haven't hard-coded a custom response for it. Hardcoding a response or custom action is only really necessary for when you need parameters to be returned via your action.
-
 ## Creating a new project
 To create a new project with dialog flow, you'll want to follow the setup above, as well as create a new Dialog Flow Agent.
 To create a new Choregraphe program, create it as you would normally, then copy and paste `DialogFlowExample/scripts` into your new project. Then add the following to your `manifest.xml`:
@@ -36,7 +32,53 @@ To create a new Choregraphe program, create it as you would normally, then copy 
 ```
 This tells NAOqi to install the ListenerService. Then you'll want to copy the "Start Listener" block from the graph into your own project. This just promps NAOqi to launch this service and starts it's listener. Remember to have the Dialog Flow server running on your PC before you do, otherwise it will not work.
 
-## Payloads
+Then add a new Python Box with the following code in it. You will also need to add an output named `onStarted`.
+This is only example code and in this example it simply waits 3 seconds for the service to start and does not gracefully deal with problems such as the Dialog Flow server not being found. More robust solutions should be found. I'll do this if I have the time left.
+
+```py
+import time
+
+
+class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        self.serviceMan = ALProxy('ALServiceManager')
+        self.listener = None
+        pass
+
+    def onUnload(self):
+        # Stop our service from running in the background once the behaviour ends.
+        if self.listener is not None:
+            self.listener.cleanup()
+        self.serviceMan.stopService('ListenerService')
+        pass
+
+    def onInput_onStart(self):
+        # Start our listener service.
+        self.serviceMan.startService('ListenerService')
+        time.sleep(3) # TODO: Proper way of waiting
+
+        # TODO: Graceful error exits.
+
+        # Get the listener service
+        self.listener = ALProxy('ListenerService')
+
+        # Start listening. Initialises dialogflow with a project id. Change this to your own.
+        self.listener.start_listening('soc-pepper-summer', self.packageUid())
+
+        # Fire any program init now.
+        self.onStarted()
+
+        pass
+
+    def onInput_onStop(self):
+        self.onUnload()
+        self.onStopped()
+```
+
+## Dialog Flow Response Payloads
 This implementation supports many pre-defined payloads and you can add your own too.
 
 ### Speech
