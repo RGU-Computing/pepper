@@ -366,8 +366,8 @@ class ListenerService(object):
     @qi.nobind
     def set_eyes(self, r, g, b):
         """Set Pepper's face LEDs"""
-        self.leds.fadeRGB("FaceLeds", r / 255, g / 255, b / 255, 0)  # 0 seconds fade to not freeze our listener
+        self.leds.fadeRGB("FaceLeds", r / 255, g / 255, b / 255, 0)  # 0 seconds fade as this is a blocking call.
 
 
 if __name__ == "__main__":
-    stk.runner.run_service(ListenerService)
+    stk.runner.run_service(ListenerService)#

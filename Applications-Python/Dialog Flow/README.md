@@ -24,6 +24,8 @@ In addition, to authorise to Google Cloud for Dialog Flow, you must set GOOGLE_A
 
 During testing if you would like to run the `ListenerService` on its own (for example the one included in the example project), you can simply run it with `python ListenerService.py` and it will prompt you for the connection details for the robot. Note that you'll need to make modifications to your initial python block (as discussed below) to support an already-running service.
 
+To run the example, you must set up the dialog flow service correctly, configure an agent on Google Dialog Flow and setup its intents. Then you must change the Google project ID in the same place as disclosed below.
+
 ## Creating a new project
 To create a new project with dialog flow, you'll want to follow the setup above, as well as create a new Dialog Flow Agent.
 To create a new Choregraphe program, create it as you would normally, then copy and paste `DialogFlowExample/scripts` into your new project. Then add the following to your `manifest.xml`:
@@ -34,7 +36,7 @@ To create a new Choregraphe program, create it as you would normally, then copy 
 ```
 This tells NAOqi to install the ListenerService. Then you'll want to copy the "Start Listener" block from the graph into your own project. This just promps NAOqi to launch this service and starts it's listener. Remember to have the Dialog Flow server running on your PC before you do, otherwise the program will stop immediately.
 
-Then add a new Python Box with the following code in it. You will also need to add an input named `listenerStarted` and an output named `onStarted`. Then add a memory event on the left of the graph attached to the event `ListenerServiceStarted`, you'll likely have to use the `Create new key` button. Plug this into `listenerStarted`. This lets the script know we're about ready to begin. We then wait a couple of seconds for the service manager to keep up then start our program.
+Then add a new Python Box with the following code in it. You will also need to add a `"bang"` input named `listenerStarted` and a `"bang"` output named `onStarted`. Then add a memory event on the left of the graph attached to the event `ListenerServiceStarted`, you'll likely have to use the `Create new key` button. Plug this into `listenerStarted`. This lets the script know we're about ready to begin. We then wait a couple of seconds for the service manager to keep up then start our program.
 
 ```py
 import time
@@ -86,7 +88,7 @@ class MyClass(GeneratedClass):
         # Grab the listener and start our program.
         self.listener = ALProxy('ListenerService')
         self.logger.info('Starting listener.')
-        self.listener.start_listening('soc-pepper-summer', self.packageUid())
+        self.listener.start_listening('<YOUR GOOGLE PROJECT ID HERE>', self.packageUid())  # TODO: Set your project ID here.
         self.onStarted()
 
     def onInput_onStop(self):

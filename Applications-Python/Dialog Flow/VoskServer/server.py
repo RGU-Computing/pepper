@@ -68,5 +68,5 @@ class SocketServer(Thread):
 pid = os.getpid()
 sl = SocketServer()
 sl.start()
-input('Socket is listening, press any key to abort...')
+input('Socket is listening, press any key to abort... Do not hit Ctrl + C or you will have to task kill.')
 os.kill(pid, 9)
