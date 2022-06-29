@@ -5,9 +5,9 @@ This project has been inspired and influenced by [this blog post](https://blogem
 
 ## Project Structure
 - DialogFlowService: This is a NAOqi service that runs on a laptop, it exposes some of the dialog flow API to Pepper. This is done because it is currently not possible to install the API on Pepper using pip.
-- VoskClient: This is a socket client for a python 3 vosk server (see below). This has been kept in a separate project to DialogFlowService even though they have a lot of duplicated code as VoskClient isn't ready for prime use, it is still very much a prototype.
-- VoskServer: This is a Python 3 server hosting access to the Vosk Speech Recognition API. It was used during an experiment and can be optionally toggled in DialogFlowExample's demonstration listener service.
 - DialogFlowExample: This Choregraphe project ties all of the above services together to create a basic dialog flow program. It contains the barebones and can be used as a template to create further applications.
+- VoskClient: This is a socket client for a python 3 vosk server (see below). This has been kept in a separate project to DialogFlowService even though they have a lot of duplicated code as VoskClient isn't ready for primetime, it is still very much a prototype.
+- VoskServer: This is a Python 3 server hosting access to the Vosk Speech Recognition API. It was used during an experiment and can be optionally toggled in DialogFlowExample's demonstration listener service. Remember that both this and the VoskClient must be running in addition to the DialogFlowService for this to be available.
 
 ## Setup/Configuration
 You must install the NAOqi Python 2.7 SDK from [here](http://doc.aldebaran.com/2-5/dev/python/install_guide.html).
@@ -16,11 +16,13 @@ You must install the NAOqi Python 2.7 SDK from [here](http://doc.aldebaran.com/2
 `requirements.txt` files have been provided where necessary to pin dependencies to the correct versions. Entire pip dumps weren't provided as they may have been polluted however the important libraries are in these files.
 
 Both services that can be run on the laptop (DialogFlowService and VoskClient) accept command line arguments to configure the target robot:
-```
-service.py --ip <ROBOT IP> --port <ROBOT PORT>
+```shell
+python service.py --ip <ROBOT IP> --port <ROBOT PORT>
 ```
 
 In addition, to authorise to Google Cloud for Dialog Flow, you must set GOOGLE_APPLICATION_CREDENTIALS in the environment variables to the correct path to your JSON token. I'd recommend reading the setup steps for Dialog Flow [here](https://cloud.google.com/dialogflow/es/docs/quick/setup).
+
+During testing if you would like to run the `ListenerService` on its own (for example the one included in the example project), you can simply run it with `python ListenerService.py` and it will prompt you for the connection details for the robot. Note that you'll need to make modifications to your initial python block (as discussed below) to support an already-running service.
 
 ## Creating a new project
 To create a new project with dialog flow, you'll want to follow the setup above, as well as create a new Dialog Flow Agent.
@@ -128,6 +130,6 @@ Custom actions can either be implemented by adding them in the `ListenerService.
 
 ## Future Steps
 As part of further development of this system, the following could be investigated:
-- Adapting the system that detects speech to be more sensitive and to account for background noise, allowing for single-word responses to be captured easier.
+- Adapting the system that detects speech to be more sensitive and to account for background noise, allowing for single-word responses to be captured easier. Maybe integrating some kind of voice activity detection API.
 - The Vosk API could be promising, however this same approach could be used to support virtually any speech recognition system.
 - Look into using a higher sample rate from the microphones, that could lend itself to better clarity and therefore better recognition.
