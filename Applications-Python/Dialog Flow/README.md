@@ -30,10 +30,9 @@ To create a new Choregraphe program, create it as you would normally, then copy 
   <service execStart="/usr/bin/python2 scripts/ListenerService.py" name="ListenerService" autorun="false"/>
 </services>
 ```
-This tells NAOqi to install the ListenerService. Then you'll want to copy the "Start Listener" block from the graph into your own project. This just promps NAOqi to launch this service and starts it's listener. Remember to have the Dialog Flow server running on your PC before you do, otherwise it will not work.
+This tells NAOqi to install the ListenerService. Then you'll want to copy the "Start Listener" block from the graph into your own project. This just promps NAOqi to launch this service and starts it's listener. Remember to have the Dialog Flow server running on your PC before you do, otherwise the program will stop immediately.
 
-Then add a new Python Box with the following code in it. You will also need to add an output named `onStarted`.
-This is only example code and in this example it simply waits 3 seconds for the service to start and does not gracefully deal with problems such as the Dialog Flow server not being found. More robust solutions should be found. I'll do this if I have the time left.
+Then add a new Python Box with the following code in it. You will also need to add an input named `listenerStarted` and an output named `onStarted`. Then add a memory event on the left of the graph attached to the event `ListenerServiceStarted`, you'll likely have to use the `Create new key` button. Plug this into `listenerStarted`. This lets the script know we're about ready to begin. We then wait a couple of seconds for the service manager to keep up then start our program.
 
 ```py
 import time
@@ -44,34 +43,49 @@ class MyClass(GeneratedClass):
         GeneratedClass.__init__(self)
 
     def onLoad(self):
+        # Initialize our fields
         self.serviceMan = ALProxy('ALServiceManager')
         self.listener = None
+
+        # Store the service name. We use the packageUid to make sure we don't collide.
+        self.serviceName = self.packageUid() + ".ListenerService"
         pass
 
     def onUnload(self):
         # Stop our service from running in the background once the behaviour ends.
         if self.listener is not None:
             self.listener.cleanup()
-        self.serviceMan.stopService('ListenerService')
+        self.logger.info('Stopping listener service.')
+        
+        if self.serviceMan.isServiceRunning(self.serviceName):
+            self.serviceMan.stopService(self.serviceName)
         pass
 
     def onInput_onStart(self):
+        # Try to get Dialog Flow.
+        try:
+            ALProxy('DialogFlowAPI')
+        except RuntimeError:
+            # Server isn't loaded!
+            self.logger.error('Dialog Flow Server must be started first!')
+            self.onStopped()
+            return
+    
         # Start our listener service.
-        self.serviceMan.startService('ListenerService')
-        time.sleep(3) # TODO: Proper way of waiting
-
-        # TODO: Graceful error exits.
-
-        # Get the listener service
-        self.listener = ALProxy('ListenerService')
-
-        # Start listening. Initialises dialogflow with a project id. Change this to your own.
-        self.listener.start_listening('soc-pepper-summer', self.packageUid())
-
-        # Fire any program init now.
-        self.onStarted()
-
+        self.logger.info('Starting listener service.')
+        self.serviceMan.startService(self.serviceName)
         pass
+
+
+    def onInput_listenerStarted(self, *_args):
+        # Wait for the service manager to catch up.
+        time.sleep(2)
+
+        # Grab the listener and start our program.
+        self.listener = ALProxy('ListenerService')
+        self.logger.info('Starting listener.')
+        self.listener.start_listening('soc-pepper-summer', self.packageUid())
+        self.onStarted()
 
     def onInput_onStop(self):
         self.onUnload()

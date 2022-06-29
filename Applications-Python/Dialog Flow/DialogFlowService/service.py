@@ -30,7 +30,7 @@ def log_response(response):
     print("Fulfillment text: {}\n".format(response.query_result.fulfillment_text.encode('utf8')))
 
 
-class DialogFlowService(ALModule):
+class DialogFlowAPI(ALModule):
     """NAOqi remote module that interfaces with Google DialogFlow."""
 
     def __init__(self, name):
@@ -116,7 +116,7 @@ if __name__ == '__main__':
         sys.exit(1)
 
     # Register the module.
-    DialogFlowService = DialogFlowService('DialogFlowService')
+    DialogFlowAPI = DialogFlowAPI('DialogFlowAPI')
 
     # Keep program running until we tell it to quit.
     try:

@@ -17,6 +17,6 @@
   </behaviorContent>
  </contents>
  <services>
-  <service execStart="/usr/bin/python2 scripts/ListenerService.py" name="ListenerService" autorun="false"/>
+  <service execStart="/usr/bin/python2 scripts/ListenerService.py" autorun="false" name="ListenerService"/>
  </services>
 </package>

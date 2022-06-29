@@ -79,7 +79,7 @@ class ListenerService(object):
         self.speech = self.s.ALSpeechRecognition
 
         # Dialog Flow and Vosk
-        self.dialogflow = self.s.DialogFlowService
+        self.dialogflow = self.s.DialogFlowAPI
         self.vosk = None  # initialized if vosk is enabled
 
         # Properties for voice detection and recording
@@ -108,7 +108,9 @@ class ListenerService(object):
         self.tablet = self.s.ALTabletService
         self.behavior_manager = self.s.ALBehaviorManager
 
-    # TODO: Is there a way to avoid needing a package_uuid passing in?
+        # Tell Choregraphe we're ready to rock 'n' roll!
+        self.mem.raiseEvent('ListenerServiceStarted', True)        
+
     @qi.bind(returnType=qi.Void, paramsType=[qi.String, qi.String])
     def start_listening(self, google_project_id, package_uuid):
         # Save package uuid
@@ -265,7 +267,7 @@ class ListenerService(object):
 
             self.retries -= 1
             #self.sound_file.write(sound_data[0].tostring())
-            self.sound_file.write(sound_data.tostring()) # TODO: Test new audio data stuff
+            self.sound_file.write(sound_data.tostring())
 
             # Don't listen for too long
             if time.time() - self.record_start > MAX_RECORD_TIME:
