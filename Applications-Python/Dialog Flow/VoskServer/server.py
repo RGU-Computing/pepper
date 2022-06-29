@@ -1,22 +1,19 @@
 # Python 3 Server for vosk.
-# This is a proof of concept, it ignores disconnect handling and doesn't gracefully exit when pressing ctrl+c (press return instead).
-
-import os
-import struct
-import time
-import json
+# This is a proof of concept, it ignores socket disconnections and doesn't gracefully exit when pressing ctrl+c (press return instead).
 
 from vosk import Model, KaldiRecognizer, SetLogLevel
+
+import json
+import os
+import signal
+import socket
+import struct
 import sys
+from threading import Thread
+import time
 import wave
 
-import socket
-
-import signal
-
-
-from threading import Thread
-
+# Init en-us Vosk model.
 model = Model(lang="en-us")
 
 
@@ -49,11 +46,10 @@ class SocketServer(Thread):
                         datbuf += data
                         read_count += len(data)
 
+                        # Accepting each chunk like this seems to yield better results
                         rec.AcceptWaveform(data)
 
                     print('generate response')
-
-                    # rec.AcceptWaveform(datbuf)
 
                     print('send response')
                     resp = json.loads(rec.FinalResult())['text']
@@ -63,13 +59,9 @@ class SocketServer(Thread):
 
                     # Wait for client to close.
                     # conn.recv(1)
-
                     time.sleep(1)
 
                     print('end')
-
-                    # if not data:
-                    #     break
 
 
 # https://stackoverflow.com/questions/15189888/python-socket-accept-in-the-main-thread-prevents-quitting
