@@ -1,9 +1,9 @@
-# Google Dialog Flow
-This folder contains four projects that are used to make Pepper utilise Dialog Flow.
+# Pepper Google Dialog Flow Integration
+This folder contains four projects that are used to make Pepper utilise Dialog Flow. The dialog flow API has been optimised to ensure near-realtime responses.
 
 This project has been inspired and influenced by [this blog post](https://blogemtech.medium.com/pepper-integration-with-dialogflow-1d7f1582da1a).
 
-## Projects
+## Project Structure
 - DialogFlowService: This is a NAOqi service that runs on a laptop, it exposes some of the dialog flow API to Pepper. This is done because it is currently not possible to install the API on Pepper using pip.
 - VoskClient: This is a socket client for a python 3 vosk server (see below). This has been kept in a separate project to DialogFlowService even though they have a lot of duplicated code as VoskClient isn't ready for prime use, it is still very much a prototype.
 - VoskServer: This is a Python 3 server hosting access to the Vosk Speech Recognition API. It was used during an experiment and can be optionally toggled in DialogFlowExample's demonstration listener service.
@@ -125,3 +125,9 @@ Multiple speech will cause large delay in execution and the custom payloads woul
 
 ### Custom Actions
 Custom actions can either be implemented by adding them in the `ListenerService.py` `handle_actions` method, or they can be added in your Choregraphe (if they are "bang" type actions). This can be done by adding a switch onto the ALMemory event `DialogFlowAction` which will fire with the `action` component of the payload.
+
+## Future Steps
+As part of further development of this system, the following could be investigated:
+- Adapting the system that detects speech to be more sensitive and to account for background noise, allowing for single-word responses to be captured easier.
+- The Vosk API could be promising, however this same approach could be used to support virtually any speech recognition system.
+- Look into using a higher sample rate from the microphones, that could lend itself to better clarity and therefore better recognition.
