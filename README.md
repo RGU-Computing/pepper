@@ -24,6 +24,13 @@
 
 ---
 
+### Our Pepper Research 🚀
+
+![Pepper GPT Badge](https://img.shields.io/badge/Pepper-GPT-purple)<br>
+[Pepper integration with GPT](https://github.com/RGU-Computing/pepper/tree/master/Applications-Python/chat-gpt-integration) (Maintained by [Ramitha Abeyratne](https://github.com/RAbeyratne))
+
+---
+
 ### The Wiki
 Please build up the wiki as you go. Add a link to any programs you make and describe what they do. 
 Add info about anything that you have found that isn't already there. 
@@ -78,4 +85,5 @@ How to fix the choreography lib not allowed
 Read the [User Guide](https://github.com/wildfireone/pepper/blob/master/PEPPER_UserGuide_EN_2019%2007%2005_1.pdf)
 
 Download [Choregraphe](https://www.softbankrobotics.com/emea/en/support/pepper-naoqi-2-9/downloads-softwares) and follow the guide [here](https://developer.softbankrobotics.com/pepper-naoqi-25/naoqi-developer-guide/choregraphe-suite)
- 
+
+---
