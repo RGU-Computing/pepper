@@ -1,0 +1,150 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Johns Hacky Nao Page</title>
+  <meta name="description" content="Js NAO Control" />
+  <meta http-equiv="X-UA-Compatible" content="IE=9">
+  <meta http-equiv="content-language" content="en-US" />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <script src="js/jquery.min.js"></script>
+  <script src="/libs/qimessaging/2/qimessaging.js"></script>
+  <script src="js/maindirect.js"></script>
+  <link rel="stylesheet" href="styles/global.css">
+</head>
+
+<body>
+  
+  
+
+        
+        
+
+       <div>
+        <div style="display:inline-block;vertical-align:top;">
+          <div style="display:inline-block;">
+            <fieldset id="DivSys" style="display:inline-block;text-align:center;border:none;">
+              <img id="photo" style="width:128px;height:128px;display:inline-block;" />
+              <p>Tablet Image</p>
+              <input type="text" style="width:200px; height:50px;" name="Text1" id="image" value="" />
+              <div style="display:inline-block;">
+                <h1>Air <span style="display:none;margin:5px;padding:5px;" id="RbtName">NAO</span></h1>
+                <span style="display:none;margin:5px;padding:5px;" id="RbtVersion">Version</span>
+              </div>
+            </fieldset>
+          </div>
+          
+         
+          <fieldset id="DivPosture" style="display:inline-block;text-align:center;border:none;">
+            <button id="crouch" onclick="spin360();">
+              
+              <div>360<div>
+            </button>
+            <button id="stand "onclick="spin180();">
+            
+              <div>180</div>
+            </button>
+            <button id="sit" onclick="spinHandsup('Im Aliiiveeee')">
+             
+              <div>Spin hands</div>
+            </button>
+            <button id="relax" onclick="explore(10)">
+              
+              <div>Explore</div>
+            </button>
+            <button id="lying" onclick="stopExplore()">
+              
+              <div>Stop Explore</div>
+            </button>
+            <button id="belly" onclick="posture.goToPosture('LyingBelly', 1.0);">
+              
+              <div>LyingBelly</div>
+            </button>
+            <button id="standinit" onclick="posture.goToPosture('StandInit', 1.0);">
+              
+              <div>StandInit</div>
+            </button>
+            <button id="standzero" onclick="posture.goToPosture('StandZero', 1.0);">
+              <img src="img/stand-zero.png" style="width:60px;height:60px;" />
+              <div>StandZero</div>
+            </button>
+          </fieldset>
+
+          <fieldset id="DivExtra" style="text-align:center;border:none;">
+            <button id="stop" onclick="stopAll();">
+              
+              <div>Stop All</div>
+            </button>
+            <button id="ALSol" onclick="life.setState('solitary')">
+              
+              <div>Autonomous on (Solitary)</div>
+            </button>
+            <button id="AlInt" onclick="life.setState('interactive')">
+              
+              <div>Autonomous on (Interactive)</div>
+            </button>
+
+            <button id="lying" onclick="posture.goToPosture('LyingBack', 1.0);">
+              
+              <div>LyingBack</div>
+            </button>
+
+            <button id="wave1" onclick="runBehaviour('dialog_move/animations/Others/Standing/Wave01');randomHello();">
+              
+              <div>WaveRight<div>
+            </button>
+            <button id="wave1" onclick="runBehaviour('dialog_move_hands/animations/Wave01');randomHello();">
+             
+              <div>WaveLeft</div>
+            </button>
+            <button id="handshake" onclick="runBehaviour('dialog_move_hands/animations/OpenBothHands');runBehaviour('dialog_move_arms/animations/UpBothArms')">
+              <div>Handsup</div>
+            </button>
+           
+            <button id="handshake" onclick="runBehaviour('daps-bc/animations/success_rhandshake')">
+              
+              <div>Handshake</div>
+            </button>
+            
+            <button id="handshake" onclick="runBehaviour('daps-bc/animations/init_rhighfive')">
+              <div>HighFive</div>
+            </button>
+            
+            <button id="standzero" onclick="runBehaviour('animations/Stand/Gestures/Salute_1')">
+         
+              <div>Salute</div>
+            </button>
+
+            <button id="startrandom" onclick="startRandomBehaviour()">
+              <div>random</div>
+            </button>
+            <button id="stoprandom" onclick="stopRandomBehaviour()">
+              <div>Stop random</div>
+            </button>
+          </fieldset>
+          
+        
+        <fieldset id="DivLogContainer" style="width:100%;max-height:300px;padding:0px;border:solid 1px #444444;border-radius:5px;overflow:auto;">
+          <legend id="LogLevel" onclick="jsnao.level_logs();" title="Click to change Logs Level" style="cursor:pointer;margin-left:10px;">Logger Level : INFO</legend>
+          <div id="DivLogger"></div>
+        </fieldset>
+       </div>
+       
+
+       <div class="dropdown">
+        <button onclick="selectBehaviour()" class="dropbtn">Dropdown</button>
+        <div id="myDropdown" class="dropdown-content">
+          <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+          
+        </div>
+        <div class="column" id="gestures"></div>
+        <div class="column"  id="reactions"></div>
+        <div class="column" id="waiting"></div>
+
+      </div>
+ 
+      
+        
+</body>
+
+</html>

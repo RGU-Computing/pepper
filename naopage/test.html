@@ -1,0 +1,181 @@
+<!doctype html>
+<html>
+<head>
+  <title>Air NAO</title>
+  <meta name="description" content="Js NAO Control" />
+  <meta http-equiv="X-UA-Compatible" content="IE=9" >
+  <meta http-equiv="content-language" content="en-US" />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <script src="jquery.min.js"></script>
+  <script type="text/javascript">
+  var nao_address = window.location.host;
+  var jsQim = '/libs/qimessaging/1.0/qimessaging.js';
+ // if (nao_address == '') {
+    nao_address = 'nao.local';
+    jsQim = 'http://' + nao_address + jsQim;
+  //}
+  var jsnao = 'http://'+nao_address+'/apps/airnao/jsnao.js';
+  $.getScript(jsQim, function() {
+    console.log('QiMessaging Library Loaded');
+    $.getScript('jsnao.js', function() {
+      console.log('JsNAO Library Loaded');
+      $(document).ready(function() {
+        jsnao.connect(nao_address);
+        $('#RbtSay').keyup(function (e){
+          if (e.keyCode == 13 /* Enter */) {
+            jsnao.al_tts.say($('#RbtSay').val());
+          }
+        });
+      });
+    });
+  });
+  </script>
+</head>
+<body>
+  <div style="display:inline-block;vertical-align:top;">
+    <div style="display:inline-block;">
+      <fieldset id="DivSys" style="display:none;text-align:center;border:none;">
+        <img id="RbtIcon" style="width:128px;height:128px;display:inline-block;" />
+        <div style="display:inline-block;">
+          <h1>Air <span style="display:none;margin:5px;padding:5px;" id="RbtName">NAO</span></h1>
+          <span style="display:none;margin:5px;padding:5px;" id="RbtVersion">Version</span>
+        </div>
+      </fieldset>
+    </div>
+    <div style="display:inline-block;">
+      <fieldset id="DivTts" style="display:none;text-align:center;border:none;">
+        <img id="imgLang" style="display:inline-block;vertical-align:middle;" src="img/check.png" />
+        <input style="display:inline-block;" type="input" id="RbtSay" />
+        <button style="display:inline-block;" onclick="jsnao.al_tts.say($('#RbtSay').val());">Say</button>
+      </fieldset>
+    </div>
+    <fieldset id="DivPosture" style="display:none;text-align:center;border:none;">
+      <button onclick="jsnao.al_posture.goToPosture('Crouch', 1.0);">
+        <img src="img/croutch.png" style="width:60px;height:60px;" />
+        <div>Crouch<div>
+      </button>
+      <button onclick="jsnao.al_posture.goToPosture('Stand', 1.0);">
+        <img src="img/stand.png" style="width:60px;height:60px;" />
+        <div>Stand</div>
+      </button>
+      <button onclick="jsnao.al_posture.goToPosture('Sit', 1.0);">
+        <img src="img/sit.png" style="width:60px;height:60px;" />
+        <div>Sit</div>
+      </button>
+      <button onclick="jsnao.al_posture.goToPosture('SitRelax', 1.0);">
+        <img src="img/relax.png" style="width:60px;height:60px;" />
+        <div>SitRelax</div>
+      </button>
+      <button onclick="jsnao.al_posture.goToPosture('LyingBack', 1.0);">
+        <img src="img/back.png" style="width:60px;height:60px;" />
+        <div>LyingBack</div>
+      </button>
+      <button onclick="jsnao.al_posture.goToPosture('LyingBelly', 1.0);">
+        <img src="img/belly.png" style="width:60px;height:60px;" />
+        <div>LyingBelly</div>
+      </button>
+      <button onclick="jsnao.al_posture.goToPosture('StandInit', 1.0);">
+        <img src="img/stand-init.png" style="width:60px;height:60px;" />
+        <div>StandInit</div>
+      </button>
+      <button onclick="jsnao.al_posture.goToPosture('StandZero', 1.0);">
+        <img src="img/stand-zero.png" style="width:60px;height:60px;" />
+        <div>StandZero</div>
+      </button>
+    </fieldset>
+    <fieldset id="DivMotion" style="display:none;text-align:center;border:none;">
+      <div style="display:inline-block;vertical-align:top;">
+        <button onclick="jsnao.al_motion.wakeUp();" style="display:inline-block;vertical-align:top;">
+          <img src="img/waikup.png" style="width:60px;height:60px;" />
+          <div>Wake Up</div>
+        </button>
+        <br />
+        <button onclick="jsnao.al_motion.rest();" style="display:inline-block;vertical-align:top;">
+          <img src="img/rest.png" style="width:60px;height:60px;" />
+          <div>Rest</div>
+        </button>
+      </div>
+      <div style="display:inline-block;vertical-align:top;">
+        <button onclick="jsnao.al_motion.openHand('LHand');">
+          <img src="img/hand-left-open.png" style="width:60px;height:60px;" />
+          <div>Open Hand</div>
+        </button><br />
+        <button onclick="jsnao.al_motion.closeHand('LHand');">
+          <img src="img/hand-left-close.png" style="width:60px;height:60px;" />
+          <div>Close Hand</div>
+        </button>
+      </div>
+      <div style="display:inline-block;vertical-align:top;">
+        <button onclick="jsnao.al_motion.moveTo(0.0, 0.0, 0.26);">
+          <img src="img/turn-left.png" style="width:60px;height:60px;" />
+          <div>turn left</div>
+        </button>
+        <button onclick="jsnao.al_motion.moveTo(0.1, 0.0, 0.0);">
+          <img src="img/forward.png" style="width:60px;height:60px;" />
+          <div>forward</div>
+        </button>
+        <button onclick="jsnao.al_motion.moveTo(0.0, 0.0, -0.26);">
+          <img src="img/turn-right.png" style="width:60px;height:60px;" />
+          <div>turn right</div>
+        </button>
+        <br />
+        <button onclick="jsnao.al_motion.moveTo(0.0, 0.1, 0.0);">
+          <img src="img/left.png" style="width:60px;height:60px;" />
+          <div>move left</div>
+        </button>
+        <button onclick="jsnao.al_motion.moveTo(-0.1, 0.0, 0.0);">
+          <img src="img/backward.png" style="width:60px;height:60px;" />
+          <div>backward</div>
+        </button>
+        <button onclick="jsnao.al_motion.moveTo(0.0, -0.1, 0.0);">
+          <img src="img/right.png" style="width:60px;height:60px;" />
+          <div>move right</div>
+        </button>
+      </div>
+      <div style="display:inline-block;vertical-align:top;">
+        <button onclick="jsnao.al_motion.openHand('RHand');">
+          <img src="img/hand-right-open.png" style="width:60px;height:60px;" />
+          <div>Open Hand</div>
+        </button><br />
+        <button onclick="jsnao.al_motion.closeHand('RHand');">
+          <img src="img/hand-right-close.png" style="width:60px;height:60px;" />
+          <div>Close Hand</div>
+        </button>
+      </div>
+      <div style="display:inline-block;vertical-align:top;">
+        <button onclick="jsnao.al_sys.shutdown();">
+          <img src="img/shutdown.png" style="width:60px;height:60px;" />
+          <div>Shutdown</div>
+        </button>
+        <br />
+        <button onclick="jsnao.al_sys.reboot();">
+          <img src="img/reboot.png" style="width:60px;height:60px;" />
+          <div>Reboot</div>
+        </button>
+      </div>
+    </fieldset>
+  </div>
+  <div style="display:inline-block;vertical-align:top;">
+    <fieldset id="DivVideo" style="display:none;border:none;">
+      <button id="BtnVid" onclick="jsnao.display_video();">
+        <img src="img/video.png" style="width:60px;height:60px;" />
+        <div>Show Video</div>
+      </button>
+      <div id="DivVid1" style="display:none;background-color:#999999;"><canvas id="myCanvas0" width="160" height="120"></canvas></div>
+      <div id="DivVid2" style="display:none;background-color:#999999;"><canvas id="myCanvas1" width="160" height="120"></canvas></div>
+    </fieldset>
+  </div>
+  <div style="display:inline-block;vertical-align:top;">
+    <fieldset id="DivLogs" style="display:none;border:none;">
+      <button id="BtnVid" onclick="jsnao.display_logs();">
+        <img src="img/logs.png" style="width:60px;height:60px;" />
+        <div>Show Logs</div>
+      </button>
+    </fieldset>
+  </div>
+  <fieldset id="DivLogContainer" style="display:none;width:100%;max-height:300px;padding:0px;border:solid 1px #444444;border-radius:5px;overflow:auto;">
+    <legend id="LogLevel" onclick="jsnao.level_logs();" title="Click to change Logs Level" style="cursor:pointer;margin-left:10px;">Logger Level : INFO</legend>
+    <div id="DivLogger"></div>
+  </fieldset>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Air NAO</title>
+  <meta name="description" content="Js NAO Control" />
+  <meta http-equiv="X-UA-Compatible" content="IE=9">
+  <meta http-equiv="content-language" content="en-US" />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <script src="jquery.min.js"></script>
+  <script src="http://nao.local/libs/qi/2/qi.js"></script>
+  <script type="text/javascript">
+
+    var altts;
+    $(document).ready(function() {
+      console.log("page ready");
+      
+    QiSession(function (session) {
+      console.log("connected!");
+      // you can now use your QiSession
+      session.service("ALAnimatedSpeech").then(function (tts) {
+        var configuration = {"bodyLanguageMode":"contextual"}
+        // tts is a proxy to the ALTextToSpeech service
+        console.log('saying');
+        altts = tts;
+        altts.say("hello");
+        $('#RbtSay').keyup(function (e){
+          if (e.keyCode == 13 /* Enter */) {
+            altts.say($('#RbtSay').val(),configuration);
+          }
+        });
+      }, function (error) {
+        console.log("An error occurred:", error);
+      });
+    }, function () {
+      console.log("disconnected");
+    }, 'nao-blue.local');
+
+   
+
+
+  });
+  
+
+
+  </script>
+</head>
+
+<body>
+  
+  
+
+        
+        <input type="text"
+       cols="40" 
+       rows="5" 
+       style="width:200px; height:50px;" 
+       name="Text1" 
+       id="RbtSay" 
+       value="" />
+ 
+        
+</body>
+
+</html>

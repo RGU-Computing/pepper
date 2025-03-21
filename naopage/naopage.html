@@ -1,0 +1,232 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Johns Hacky Nao Page</title>
+  <meta name="description" content="Js NAO Control" />
+  <meta http-equiv="X-UA-Compatible" content="IE=9">
+  <meta http-equiv="content-language" content="en-US" />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <script src="js/jquery.min.js"></script>
+  <script src="/libs/qi/2/qi.js"></script>
+  <script src="js/naocontrol.js"></script>
+  <script src="js/main.js"></script>
+  <link rel="stylesheet" href="styles/global.css">
+</head>
+
+<body>
+  
+  
+
+        
+        
+
+       <div>
+        <div style="display:inline-block;vertical-align:top;">
+          <div style="display:inline-block;">
+            <fieldset id="DivSys" style="display:none;text-align:center;border:none;">
+              <img id="RbtIcon" style="width:128px;height:128px;display:inline-block;" />
+              <div style="display:inline-block;">
+                <h1>Air <span style="display:none;margin:5px;padding:5px;" id="RbtName">NAO</span></h1>
+                <span style="display:none;margin:5px;padding:5px;" id="RbtVersion">Version</span>
+              </div>
+            </fieldset>
+          </div>
+          <div style="display:inline-block;">
+            <fieldset id="DivTts" style="display:none;text-align:center;border:none;">
+              <input type="text"
+              cols="40" 
+              rows="5" 
+              style="width:200px; height:50px;" 
+              name="Text1" 
+              id="RbtSay" 
+              value="" />
+            </fieldset>
+          </div>
+          <fieldset id="DivPosture" style="display:none;text-align:center;border:none;">
+            <button id="crouch" onclick="nao.posture.goToPosture('Crouch', 1.0);">
+              <img src="img/croutch.png" style="width:60px;height:60px;" />
+              <div>Crouch<div>
+            </button>
+            <button id="stand "onclick="nao.posture.goToPosture('Stand', 1.0);">
+              <img src="img/stand.png" style="width:60px;height:60px;" />
+              <div>Stand</div>
+            </button>
+            <button id="sit" onclick="nao.posture.goToPosture('Sit', 1.0);">
+              <img src="img/sit.png" style="width:60px;height:60px;" />
+              <div>Sit</div>
+            </button>
+            <button id="relax" onclick="nao.posture.goToPosture('SitRelax', 1.0);">
+              <img src="img/relax.png" style="width:60px;height:60px;" />
+              <div>SitRelax</div>
+            </button>
+            <button id="lying" onclick="nao.posture.goToPosture('LyingBack', 1.0);">
+              <img src="img/back.png" style="width:60px;height:60px;" />
+              <div>LyingBack</div>
+            </button>
+            <button id="belly" onclick="nao.posture.goToPosture('LyingBelly', 1.0);">
+              <img src="img/belly.png" style="width:60px;height:60px;" />
+              <div>LyingBelly</div>
+            </button>
+            <button id="standinit" onclick="nao.posture.goToPosture('StandInit', 1.0);">
+              <img src="img/stand-init.png" style="width:60px;height:60px;" />
+              <div>StandInit</div>
+            </button>
+            <button id="standzero" onclick="nao.posture.goToPosture('StandZero', 1.0);">
+              <img src="img/stand-zero.png" style="width:60px;height:60px;" />
+              <div>StandZero</div>
+            </button>
+          </fieldset>
+
+          <fieldset id="DivExtra" style="text-align:center;border:none;">
+            <button id="stop" onclick="stopAll();">
+              
+              <div>Stop All</div>
+            </button>
+            <button id="ALSol" onclick="nao.life.setState('solitary')">
+              
+              <div>Autonomous on (Solitary)</div>
+            </button>
+            <button id="AlInt" onclick="nao.life.setState('interactive')">
+              
+              <div>Autonomous on (Interactive)</div>
+            </button>
+
+            <button id="lying" onclick="nao.posture.goToPosture('LyingBack', 1.0);">
+              
+              <div>LyingBack</div>
+            </button>
+
+            <button id="wave1" onclick="runBehaviour('dialog_move/animations/Others/Standing/Wave01');">
+              
+              <div>WaveRight<div>
+            </button>
+            <button id="wave1" onclick="runBehaviour('dialog_move_hands/animations/Wave01');">
+             
+              <div>WaveLeft</div>
+            </button>
+            
+           
+            <button id="handshake" onclick="runBehaviour('daps-bc/animations/success_rhandshake')">
+              
+              <div>Handshake</div>
+            </button>
+            
+            <button id="handshake" onclick="runBehaviour('daps-bc/animations/init_rhighfive')">
+              <div>HighFive</div>
+            </button>
+            
+            <button id="standzero" onclick="runBehaviour('animations/Stand/Gestures/Salute_1')">
+         
+              <div>Salute/div>
+            </button>
+          </fieldset>
+          
+          <fieldset id="DivMotion" style="display:none;text-align:center;border:none;">
+            <div style="display:inline-block;vertical-align:top;">
+              <button id="wakeup" onclick="nao.motion.wakeUp();" style="display:inline-block;vertical-align:top;">
+                <img src="img/waikup.png" style="width:60px;height:60px;" />
+                <div>Wake Up</div>
+              </button>
+              <br />
+              <button id="rest" onclick="nao.motion.rest();" style="display:inline-block;vertical-align:top;">
+                <img src="img/rest.png" style="width:60px;height:60px;" />
+                <div>Rest</div>
+              </button>
+            </div>
+            <div style="display:inline-block;vertical-align:top;">
+              <button id="openhand" onclick="nao.motion.openHand('LHand');">
+                <img src="img/hand-left-open.png" style="width:60px;height:60px;" />
+                <div>Open Hand</div>
+              </button><br />
+              <button id="closehand" onclick="nao.motion.closeHand('LHand');">
+                <img src="img/hand-left-close.png" style="width:60px;height:60px;" />
+                <div>Close Hand</div>
+              </button>
+            </div>
+            <div style="display:inline-block;vertical-align:top;">
+              <button id="turnleft" onclick="nao.motion.moveTo(0.0, 0.0, 0.26);">
+                <img src="img/turn-left.png" style="width:60px;height:60px;" />
+                <div>turn left</div>
+              </button>
+              <button id="forward" onclick="nao.motion.moveTo(0.1, 0.0, 0.0);">
+                <img src="img/forward.png" style="width:60px;height:60px;" />
+                <div>forward</div>
+              </button>
+              <button id="turnright" onclick="nao.motion.moveTo(0.0, 0.0, -0.26);">
+                <img src="img/turn-right.png" style="width:60px;height:60px;" />
+                <div>turn right</div>
+              </button>
+              <br />
+              <button id="left" onclick="nao.motion.moveTo(0.0, 0.1, 0.0);">
+                <img src="img/left.png" style="width:60px;height:60px;" />
+                <div>move left</div>
+              </button>
+              <button id="backward" onclick="nao.motion.moveTo(-0.1, 0.0, 0.0);">
+                <img src="img/backward.png" style="width:60px;height:60px;" />
+                <div>backward</div>
+              </button>
+              <button id="right" onclick="nao.motion.moveTo(0.0, -0.1, 0.0);">
+                <img src="img/right.png" style="width:60px;height:60px;" />
+                <div>move right</div>
+              </button>
+            </div>
+            <div style="display:inline-block;vertical-align:top;">
+              <button id="righthandopen" onclick="nao.motion.openHand('RHand');">
+                <img src="img/hand-right-open.png" style="width:60px;height:60px;" />
+                <div>Open Hand</div>
+              </button><br />
+              <button id="righthandclose" onclick="nao.motion.closeHand('RHand');">
+                <img src="img/hand-right-close.png" style="width:60px;height:60px;" />
+                <div>Close Hand</div>
+              </button>
+            </div>
+            <div style="display:inline-block;vertical-align:top;">
+              <button id="shutdown" onclick="nao.system.shutdown();">
+                <img src="img/shutdown.png" style="width:60px;height:60px;" />
+                <div>Shutdown</div>
+              </button>
+              <br />
+              <button id="reboot" onclick="nao.system.reboot();">
+                <img src="img/reboot.png" style="width:60px;height:60px;" />
+                <div>Reboot</div>
+              </button>
+            </div>
+          </fieldset>
+        </div>
+        <div style="display:inline-block;vertical-align:top;">
+          <fieldset id="DivVideo" style="display:none;border:none;">
+            <button id="BtnVid" onclick="displayVideo();">
+              <img src="img/video.png" style="width:60px;height:60px;" />
+              <div>Show Video</div>
+            </button>
+            <div id="DivVid1" style="display:none;background-color:#999999;"><canvas id="myCanvas0" width="160" height="120"></canvas></div>
+            <div id="DivVid2" style="display:none;background-color:#999999;"><canvas id="myCanvas1" width="160" height="120"></canvas></div>
+          </fieldset>
+        </div>
+        <div style="display:inline-block;vertical-align:top;">
+          <fieldset id="DivLogs" style="display:none;border:none;">
+            <button id="BtnVid" onclick="jsnao.display_logs();">
+              <img src="img/logs.png" style="width:60px;height:60px;" />
+              <div>Show Logs</div>
+            </button>
+          </fieldset>
+        </div>
+        <fieldset id="DivLogContainer" style="display:none;width:100%;max-height:300px;padding:0px;border:solid 1px #444444;border-radius:5px;overflow:auto;">
+          <legend id="LogLevel" onclick="jsnao.level_logs();" title="Click to change Logs Level" style="cursor:pointer;margin-left:10px;">Logger Level : INFO</legend>
+          <div id="DivLogger"></div>
+        </fieldset>
+       </div>
+
+       <div class="dropdown">
+        <button onclick="selectBehaviour()" class="dropbtn">Dropdown</button>
+        <div id="myDropdown" class="dropdown-content">
+          <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+          
+        </div>
+      </div>
+ 
+        
+</body>
+
+</html>
